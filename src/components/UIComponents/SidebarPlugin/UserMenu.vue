@@ -6,7 +6,8 @@
     <div class="info">
       <a data-toggle="collapse" @click="toggleMenu" href="javascript:void(0)">
            <span>
-             Chet Faker
+             {{ this.$auth.user().firstname }} {{ this.$auth.user().lastname }}
+
              <b class="caret"></b>
           </span>
       </a>

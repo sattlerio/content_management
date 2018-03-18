@@ -3,10 +3,17 @@
     <notifications transition-name="notification-list" transition-mode="out-in">
 
     </notifications>
-    <transition name="fade"
-                mode="out-in">
-      <router-view></router-view>
-    </transition>
+
+    <div v-if="$auth.ready()">
+      <transition name="fade"
+                  mode="out-in">
+        <router-view></router-view>
+      </transition>
+    </div>
+
+    <div v-if="!$auth.ready()">
+      Loading ...
+    </div>
   </div>
 </template>
 

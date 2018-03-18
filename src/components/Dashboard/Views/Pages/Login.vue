@@ -28,30 +28,52 @@
     </nav>
 
     <div class="wrapper wrapper-full-page">
-      <div class="full-page login-page" data-color=""
+      <div class="full-page login-page" data-color="red"
            data-image="static/img/background/background-2.jpg">
         <!--   you can change the color of the filter page using: data-color="blue | azure | green | orange | red | purple" -->
         <div class="content">
           <div class="container">
             <div class="row">
               <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                <form method="#" action="#">
+                <form>
                   <div class="card" data-background="color" data-color="blue">
                     <div class="card-header">
                       <h3 class="card-title">Login</h3>
+                      <p>Welcome to NAME, to use the platform please login.</p>
                     </div>
                     <div class="card-content">
                       <div class="form-group">
-                        <label>Email address</label>
-                        <input type="email" placeholder="Enter email" class="form-control input-no-border">
+                        <input type="email"
+                               name="email"
+                               v-validate="modelValidations.email"
+                               v-model="model.email"
+                               placeholder="enter your email address"
+                               class="form-control input-no-border">
+                        <small class="text-danger" v-show="email.invalid">
+                          {{ getError('email') }}
+                        </small>
                       </div>
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="password" placeholder="Password" class="form-control input-no-border">
+                        <input type="password"
+                               name="password"
+                               placeholder="your password"
+                               v-validate="modelValidations.password"
+                               v-model="model.password"
+                               class="form-control">
+                        <small class="text-danger" v-show="password.invalid">
+                          {{ getError('password') }}
+                        </small>
                       </div>
                     </div>
                     <div class="card-footer text-center">
-                      <button type="submit" class="btn btn-fill btn-wd ">Let's go</button>
+                      <div class="col-sm-12" v-show="model.error_msg">
+                        <small class="text-danger">
+                          {{ model.error_msg }}
+                        </small>
+                      </div>
+                      <button type="submit" @click.prevent="validate" class="btn btn-fill btn-info btn-wd">Login
+                      </button>
                       <div class="forgot">
                         <router-link to="/register">
                           Forgot your password?
@@ -91,8 +113,66 @@
   </div>
 </template>
 <script>
+
+  import {mapFields} from 'vee-validate'
+
   export default {
+    computed: {
+      ...mapFields(['email', 'password'])
+    },
+    data () {
+      return {
+        model: {
+          email: '',
+          password: '',
+          error_msg: ''
+        },
+        modelValidations: {
+          email: {
+            required: true,
+            email: true
+          },
+          password: {
+            required: true,
+            min: 5
+          }
+        }
+      }
+    },
     methods: {
+      getError (fieldName) {
+        return this.errors.first(fieldName)
+      },
+      validate () {
+        this.$validator.validateAll()
+          .then((result) => {
+            if (result) {
+              this.$auth.login({
+                data: {
+                  username: this.model.email,
+                  password: this.model.password
+                },
+                rememberMe: true,
+                url: 'http://localhost:5000/auth/login',
+                redirect: '/',
+                fetchUser: true
+              })
+                .then((data) => {
+                  if (data.status === 200) {
+                    var accessToken = data.data.access_token
+                    var refreshToken = data.data.refresh_token
+                    this.$auth.token(accessToken)
+                    localStorage.setItem('access_token', accessToken)
+                  } else {
+                    this.error_msg = 'Wrong username or password'
+                    return false
+                  }
+                }, (res) => {
+                  this.model.error_msg = 'Wrong username or password'
+                })
+            }
+          })
+      },
       toggleNavbar () {
         document.body.classList.toggle('nav-open')
       },

@@ -188,7 +188,6 @@
   import Loading from 'src/components/Dashboard/Layout/LoadingMainPanel.vue'
 
   const WorldMap = () => ({
-    component: import('./../Maps/WorldMap.vue'),
     loading: Loading,
     delay: 200
   })
@@ -205,6 +204,7 @@
      */
     data () {
       return {
+        current_user: this.$auth.user,
         statsCards: [
           {
             type: 'warning',
