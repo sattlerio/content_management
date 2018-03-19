@@ -22,10 +22,10 @@
               </router-link>
             </li>
             <li>
-              <a href="javascript:void(0)">
+              <router-link to="/user/password">
                 <span class="sidebar-mini"><i class="ti-key"></i></span>
                 <span class="sidebar-normal">Password</span>
-              </a>
+              </router-link>
             </li>
             <li>
               <router-link to="/logout">

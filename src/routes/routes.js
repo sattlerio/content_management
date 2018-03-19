@@ -11,6 +11,7 @@ import Lock from 'src/components/Dashboard/Views/Pages/Lock.vue'
 // User
 import UserProfile from 'src/components/Dashboard/Views/Pages/UserProfile/UserProfile.vue'
 import EditUser from 'src/components/Dashboard/Views/Pages/UserProfile/EditUser.vue'
+import UserPassword from 'src/components/Dashboard/Views/Pages/UserProfile/EditUserPassword.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -37,12 +38,9 @@ let userMenu = {
       component: EditUser
     },
     {
-      path: 'settings',
-      name: 'Settings'
-    },
-    {
       path: 'password',
-      name: 'Change password'
+      name: 'Change password',
+      component: UserPassword
     }
   ]
 }
