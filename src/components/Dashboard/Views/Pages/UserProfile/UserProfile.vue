@@ -31,7 +31,6 @@
         </form>
         <div class="card-footer">
           <router-link to="/user/edit" class="btn btn-default">Edit your profile</router-link>
-          <button class="btn btn-default">Settings</button>
           <button class="btn btn-default">Change Password</button>
 
         </div>

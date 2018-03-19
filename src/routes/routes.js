@@ -14,7 +14,9 @@ import EditUser from 'src/components/Dashboard/Views/Pages/UserProfile/EditUser.
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
+import Logout from 'src/components/Dashboard/Views/Pages/Logout.vue'
 import CompanySelector from 'src/components/Dashboard/Views/CompanySelector.vue'
+
 
 let userMenu = {
   path: '/user',
@@ -71,6 +73,14 @@ const routes = [
     }
   },
   loginPage,
+  {
+    path: '/logout',
+    component: Logout,
+    name: 'logout',
+    meta: {
+      auth: true
+    }
+  },
   lockPage,
   userMenu,
   {

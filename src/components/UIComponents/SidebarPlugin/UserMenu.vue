@@ -17,21 +17,21 @@
           <ul class="nav" v-show="!isClosed">
             <li>
               <router-link to="/user/profile">
-                <span class="sidebar-mini">Mp</span>
+                <span class="sidebar-mini"><i class="ti-user"></i></span>
                 <span class="sidebar-normal">My Profile</span>
               </router-link>
             </li>
             <li>
               <a href="javascript:void(0)">
-                <span class="sidebar-mini">Ep</span>
-                <span class="sidebar-normal">Edit Profile</span>
+                <span class="sidebar-mini"><i class="ti-key"></i></span>
+                <span class="sidebar-normal">Password</span>
               </a>
             </li>
             <li>
-              <a href="javascript:void(0)">
-                <span class="sidebar-mini">S</span>
-                <span class="sidebar-normal">Settings</span>
-              </a>
+              <router-link to="/logout">
+                <span class="sidebar-mini"><i class="ti-power-off"></i></span>
+                <span class="sidebar-normal">Logout</span>
+              </router-link>
             </li>
           </ul>
         </el-collapse-transition>
