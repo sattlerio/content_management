@@ -62,14 +62,11 @@ router.beforeEach((to, from, next) => {
         if (error.response) {
           if (error.response.status === 400) {
             if (error.response.data.single_company) {
-              alert('single company')
               next('/home/' + error.response.data.company)
             } else {
-              alert('mutli company')
               next('/select-company')
             }
             console.log(error.response)
-            alert(' nua a 404er')
           }
         } else {
           next('/404')

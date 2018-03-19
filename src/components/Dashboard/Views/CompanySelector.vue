@@ -15,6 +15,7 @@
                              size="large"
                              filterable
                              placeholder="Select your company"
+                             @change="access_company"
                              v-model="selects.selected_comapny">
                     <el-option v-for="option in selects.companies"
                                class="select-default"
@@ -26,16 +27,42 @@
                 </div>
               </div>
             </fieldset>
-
           </form>
         </div>
       </div>  <!-- end card -->
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Your companies</h4>
+        </div>
+        <div class="card-content">
+          <el-collapse class="panel-group">
+            <el-collapse-item :title="'You can manage ' + selects.companies.length + ' companies'" name="1">
+              <div class="col-md-12 card clickable_company_select" v-for="company in selects.companies" v-on:click="access_company(company.company_id)">
+                <div class="card-content">
+                  <h4 class="title">{{ company.name }}</h4>
+                  <p>{{ company.company_id }}</p>
+                </div>
+
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+        </div>
+      </div>  <!-- end card -->
+
+
     </div> <!-- end col-md-12 -->
   </div>
 </template>
 <script>
+  import Vue from 'vue'
   import axios from 'axios'
-  import {Select, Option} from 'element-ui'
+  import {Select, Option, Collapse, CollapseItem} from 'element-ui'
+  import VueTabs from 'vue-nav-tabs'
+
+  Vue.use(VueTabs)
+  Vue.use(Collapse)
+  Vue.use(CollapseItem)
 
   export default {
     components: {
@@ -45,16 +72,21 @@
     data () {
       return {
         selects: {
+          selected_comapny: '',
           simple: '',
           companies: ''
         }
+      }
+    },
+    methods: {
+      access_company: function (companyId) {
+        Vue.router.push('overview/' + companyId)
       }
     },
     beforeRouteEnter (to, from, next) {
       axios.get('http://localhost:5000/auth/fetch/user_companies')
         .then(function (response) {
           if (response.data.single_company) {
-            alert('tutu')
             next(false)
           }
           next(vm => {

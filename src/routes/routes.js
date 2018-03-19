@@ -33,7 +33,7 @@ const routes = [
   {
     path: '/',
     component: DashboardLayout,
-    redirect: '/admin/overview',
+    redirect: '/admin/select-company',
     meta: {
       auth: true
     }
@@ -43,7 +43,7 @@ const routes = [
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/overview',
+    redirect: '/admin/select-company',
     meta: {
       auth: true
     },
@@ -59,7 +59,7 @@ const routes = [
         component: Overview
       },
       {
-        path: 'overvieww/:company_id',
+        path: 'overview/:company_id',
         name: 'Overview with Company id',
         component: Overview
       }
