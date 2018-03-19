@@ -3,16 +3,14 @@
        :data-background-color="backgroundColor"
        :data-active-color="activeColor">
     <div class="logo">
-      <a class="simple-text logo-mini"
-         href="https://www.creative-tim.com/product/vue-paper-dashboard-pro">
+      <router-link to="/admin/select-company" class="simple-text logo-mini">
           <div class="logo-img">
               <img :src="logo" alt="">
           </div>
-      </a>
-      <a class="simple-text logo-normal"
-         href="https://www.creative-tim.com/vue-paper-dashboard-pro">
-          {{ title }}
-      </a>
+      </router-link>
+      <router-link to="/admin/select-company" class="simple-text logo-mini">
+        {{ title }}
+      </router-link>
     </div>
     <div class="sidebar-wrapper" ref="sidebarScrollArea">
       <slot>
