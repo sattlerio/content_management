@@ -16,10 +16,10 @@
         <el-collapse-transition>
           <ul class="nav" v-show="!isClosed">
             <li>
-              <a href="javascript:void(0)">
+              <router-link to="/user/profile">
                 <span class="sidebar-mini">Mp</span>
                 <span class="sidebar-normal">My Profile</span>
-              </a>
+              </router-link>
             </li>
             <li>
               <a href="javascript:void(0)">

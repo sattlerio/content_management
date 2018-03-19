@@ -8,10 +8,42 @@ import Overview from 'src/components/Dashboard/Views/Dashboard/Overview.vue'
 // Pages
 import Lock from 'src/components/Dashboard/Views/Pages/Lock.vue'
 
+// User
+import UserProfile from 'src/components/Dashboard/Views/Pages/UserProfile/UserProfile.vue'
+import EditUser from 'src/components/Dashboard/Views/Pages/UserProfile/EditUser.vue'
+
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 import CompanySelector from 'src/components/Dashboard/Views/CompanySelector.vue'
 
+let userMenu = {
+  path: '/user',
+  component: DashboardLayout,
+  meta: {
+    auth: true
+  },
+  redirect: '/user/profile',
+  children: [
+    {
+      path: 'profile',
+      name: 'My User',
+      component: UserProfile
+    },
+    {
+      path: 'edit',
+      name: 'Edit my user',
+      component: EditUser
+    },
+    {
+      path: 'settings',
+      name: 'Settings'
+    },
+    {
+      path: 'password',
+      name: 'Change password'
+    }
+  ]
+}
 
 let loginPage = {
   path: '/login',
@@ -40,6 +72,7 @@ const routes = [
   },
   loginPage,
   lockPage,
+  userMenu,
   {
     path: '/admin',
     component: DashboardLayout,

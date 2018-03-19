@@ -75,3 +75,15 @@ body.nude{
 .clickable_company_select {
   cursor: pointer;
 }
+
+.hover-effect:hover {
+  background-color: #769F9F;
+  cursor: pointer;
+}
+
+.card-header {
+  border-bottom: 1px solid #f4f3ef;
+}
+.card-footer {
+  border-top: 1px solid #f4f3ef;
+}
