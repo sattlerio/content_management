@@ -21,11 +21,10 @@
     </div>
     <slot name="title" v-if="children.length === 0 && !$slots.default && link.path">
       <component
-        :to="link.path"
+        :to="getRoute(link.path)"
         :is="elementType(link, false)"
         :class="{active: link.active}"
-        :target="link.target"
-        :href="link.path">
+        :href="getRoute(link.path)">
         <template v-if="addLink">
           <span class="sidebar-mini">{{link.name.substring(0, 1)}}</span>
           <span class="sidebar-normal">{{link.name}}</span>
@@ -46,6 +45,10 @@
       [CollapseTransition.name]: CollapseTransition
     },
     props: {
+      company_route: {
+        type: Boolean,
+        default: null
+      },
       menu: {
         type: Boolean,
         default: false
@@ -74,7 +77,8 @@
     data () {
       return {
         children: [],
-        collapsed: true
+        collapsed: true,
+        company_id: null
       }
     },
     computed: {
@@ -121,9 +125,26 @@
       },
       collapseSubMenu (link) {
         link.collapsed = !link.collapsed
+      },
+      getCompanyId () {
+        const self = this
+        let routeParams = self.$route.params
+        if (routeParams.company_id) {
+          self.company_id = routeParams.company_id
+        }
+      },
+      getRoute (link) {
+        const self = this
+        if (self.company_route && self.company_id) {
+          link = link + '/' + self.company_id
+        }
+        return link
       }
     },
     mounted () {
+      if (this.company_route) {
+        this.getCompanyId()
+      }
       if (this.addLink) {
         this.addLink(this)
       }

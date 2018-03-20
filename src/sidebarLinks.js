@@ -10,7 +10,7 @@ export default [
     name: 'ddd',
     icon: 'ti-panel',
     collapsed: false,
-    path: '/admin/overview/VC_000001',
+    path: '/admin/overview',
     company_route: true
   }
 ]

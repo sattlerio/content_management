@@ -21,12 +21,14 @@
           <sidebar-item v-for="(link, index) in sidebarLinks"
                         :key="link.name + index"
                         :link="link"
+                        :company_route="link.company_route"
                         v-if="link.company_route === true"
           >
 
             <sidebar-item v-for="(subLink, index) in link.children"
                           :key="subLink.name + index"
                           :link="subLink"
+                          :company_route="link.company_route"
                           v-if="link.company_route === true"
             >
             </sidebar-item>
@@ -39,12 +41,14 @@
           <sidebar-item v-for="(link, index) in sidebarLinks"
                         :key="link.name + index"
                         :link="link"
+                        :company_route="link.company_route"
                         v-if="link.company_route === false"
           >
 
             <sidebar-item v-for="(subLink, index) in link.children"
                           :key="subLink.name + index"
                           :link="subLink"
+                          :company_route="link.company_route"
                           v-if="link.company_route === false"
             >
             </sidebar-item>
