@@ -1,4 +1,5 @@
 import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
+import DashboardGeneralLayout from '../components/Dashboard/Layout/DashboardGeneralLayout.vue'
 // GeneralViews
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 import ServerError from '../components/GeneralViews/ServerErrorPage.vue'
@@ -21,7 +22,7 @@ import CompanySelector from 'src/components/Dashboard/Views/CompanySelector.vue'
 
 let userMenu = {
   path: '/user',
-  component: DashboardLayout,
+  component: DashboardGeneralLayout,
   meta: {
     auth: true
   },
@@ -64,8 +65,8 @@ let lockPage = {
 const routes = [
   {
     path: '/',
-    component: DashboardLayout,
-    redirect: '/admin/select-company',
+    component: DashboardGeneralLayout,
+    redirect: '/select-company',
     meta: {
       auth: true
     }
@@ -84,7 +85,26 @@ const routes = [
   {
     path: '/admin',
     component: DashboardLayout,
-    redirect: '/admin/select-company',
+    redirect: '/select-company',
+    meta: {
+      auth: true
+    },
+    children: [
+      {
+        path: '/admin/select-company',
+        redirect: '/select-company'
+      },
+      {
+        path: 'overview/:company_id',
+        name: 'Overview with Company id',
+        component: Overview
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: DashboardGeneralLayout,
+    redirect: '/select-company',
     meta: {
       auth: true
     },
@@ -97,11 +117,6 @@ const routes = [
       {
         path: 'overview',
         name: 'Overview',
-        component: Overview
-      },
-      {
-        path: 'overview/:company_id',
-        name: 'Overview with Company id',
         component: Overview
       }
     ]

@@ -16,15 +16,37 @@
       <slot>
 
       </slot>
-      <ul :class="navClasses">
+      <ul :class="navClasses" v-if="company_route">
         <slot name="links">
           <sidebar-item v-for="(link, index) in sidebarLinks"
                         :key="link.name + index"
-                        :link="link">
+                        :link="link"
+                        v-if="link.company_route === true"
+          >
 
             <sidebar-item v-for="(subLink, index) in link.children"
                           :key="subLink.name + index"
-                          :link="subLink">
+                          :link="subLink"
+                          v-if="link.company_route === true"
+            >
+            </sidebar-item>
+          </sidebar-item>
+        </slot>
+
+      </ul>
+      <ul :class="navClasses" v-else>
+        <slot name="links">
+          <sidebar-item v-for="(link, index) in sidebarLinks"
+                        :key="link.name + index"
+                        :link="link"
+                        v-if="link.company_route === false"
+          >
+
+            <sidebar-item v-for="(subLink, index) in link.children"
+                          :key="subLink.name + index"
+                          :link="subLink"
+                          v-if="link.company_route === false"
+            >
             </sidebar-item>
           </sidebar-item>
         </slot>
@@ -35,6 +57,11 @@
 </template>
 <script>
   export default {
+    data () {
+      return {
+        company_route: false
+      }
+    },
     props: {
       title: {
         type: String,
@@ -94,9 +121,20 @@
         await import('perfect-scrollbar/dist/css/perfect-scrollbar.css')
         const PerfectScroll = await import('perfect-scrollbar')
         PerfectScroll.initialize(this.$refs.sidebarScrollArea)
+      },
+
+      generateSidebarItems () {
+        const self = this
+        let routeParams = self.$route.params
+        if (routeParams.company_id) {
+          self.company_route = true
+        } else {
+          self.company_route = false
+        }
       }
     },
     mounted () {
+      this.generateSidebarItems()
       this.initScrollBarAsync()
     },
     beforeDestroy () {

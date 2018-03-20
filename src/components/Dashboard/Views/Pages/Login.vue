@@ -12,7 +12,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <router-link class="navbar-brand" to="/admin">Paper Dashboard PRO</router-link>
+          <router-link class="navbar-brand" to="/">Paper Dashboard PRO</router-link>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">

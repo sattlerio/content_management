@@ -43,35 +43,26 @@ const router = new VueRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
-  if (to.name === 'Login') {
-    next(true)
-  } else {
-    next(true)
-  }
-
+router.beforeResolve((to, from, next) => {
   if (to.params['company_id']) {
     let company = to.params['company_id']
-
     Vue.axios.get('http://localhost:5000/auth/validate/user_company/' + company)
       .then(function (response) {
-        alert('allowed to access')
         next(true)
       })
       .catch(function (error) {
+        console.log(error.response)
         if (error.response) {
           if (error.response.status === 400) {
             if (error.response.data.single_company) {
-              next('/home/' + error.response.data.company)
-            } else {
-              next('/select-company')
+              next('/admin/home/' + error.response.data.company)
             }
-            console.log(error.response)
           }
-        } else {
-          next('/404')
         }
+        next('/select-company')
       })
+  } else {
+    next(true)
   }
 })
 

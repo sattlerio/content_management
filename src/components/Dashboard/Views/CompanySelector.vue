@@ -80,7 +80,7 @@
     },
     methods: {
       access_company: function (companyId) {
-        Vue.router.push('overview/' + companyId)
+        Vue.router.push('/admin/overview/' + companyId)
       }
     },
     beforeRouteEnter (to, from, next) {
