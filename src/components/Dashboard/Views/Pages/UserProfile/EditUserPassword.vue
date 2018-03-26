@@ -96,7 +96,7 @@
                   old_password: self.model.oldpassword,
                   password: self.model.new_password
                 })
-                self.axios.put('http://localhost:5000/auth/change-password', data, {
+                self.axios.put('/auth/change-password', data, {
                   headers: {
                     'Content-Type': 'application/json'
                   }

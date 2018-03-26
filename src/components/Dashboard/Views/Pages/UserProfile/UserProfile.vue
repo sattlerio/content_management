@@ -71,7 +71,7 @@
     methods: {
       loadUserData: function () {
         const self = this
-        self.axios.get('http://localhost:5000/auth/user')
+        self.axios.get('/auth/user')
           .then(function (response) {
             self.loading = false
             self.user = response.data.data

@@ -95,7 +95,7 @@
       },
       loadUserData: function () {
         const self = this
-        self.axios.get('http://localhost:5000/auth/user')
+        self.axios.get('/auth/user')
           .then(function (response) {
             self.loading = false
             self.user = response.data.data
@@ -120,7 +120,7 @@
                 lastname: self.model.lastname,
                 email: self.model.email
               })
-              self.axios.post('http://localhost:5000/auth/user', data, {
+              self.axios.post('/auth/user', data, {
                 headers: {
                   'Content-Type': 'application/json'
                 }

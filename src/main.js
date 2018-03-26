@@ -34,6 +34,10 @@ Vue.use(VueNotify)
 Vue.use(SideBar, {sidebarLinks: sidebarLinks})
 Vue.use(VeeValidate)
 Vue.use(VueAxios, axios)
+Vue.axios.defaults.baseURL = 'http://localhost:8080'
+Vue.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+Vue.axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Authorization'
+
 locale.use(lang)
 
 // configure router
@@ -46,7 +50,7 @@ const router = new VueRouter({
 router.beforeResolve((to, from, next) => {
   if (to.params['company_id']) {
     let company = to.params['company_id']
-    Vue.axios.get('http://localhost:5000/auth/validate/user_company/' + company)
+    Vue.axios.get('/auth/validate/user_company/' + company)
       .then(function (response) {
         next(true)
       })
@@ -73,11 +77,11 @@ Vue.use(require('@websanova/vue-auth'), {
   auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
   http: require('@websanova/vue-auth/drivers/http/axios.1.x'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x'),
-  fetchData: {url: 'http://localhost:5000/auth/user', method: 'GET', enabled: true},
+  fetchData: {url: '/auth/user', method: 'GET', enabled: true},
   tokenDefaultName: 'access_token',
   tokenStore: ['localStorage'],
   refreshData: {
-    url: 'http://localhost:5000/auth/refresh',
+    url: '/auth/refresh',
     method: 'GET',
     enabled: true
   }

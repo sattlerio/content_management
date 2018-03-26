@@ -153,7 +153,7 @@
                   password: this.model.password
                 },
                 rememberMe: true,
-                url: 'http://localhost:5000/auth/login',
+                url: '/auth/login',
                 redirect: '/',
                 fetchUser: true
               })

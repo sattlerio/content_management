@@ -13,7 +13,6 @@
     </side-bar>
 
     <div class="main-panel">
-      {{ this.$auth.user().permission }}
       <top-navbar></top-navbar>
 
       <dashboard-content @click.native="toggleSidebar">
@@ -47,12 +46,10 @@
         const self = this
         let routeParams = self.$route.params
         if (routeParams.company_id) {
-          alert('dash')
-          self.axios.get('http://localhost:5000/auth/user/permission/' + routeParams.company_id)
+          self.axios.get('/auth/user/permission/' + routeParams.company_id)
             .then(function (response) {
               let permission = response.data.permission
               self.$auth.user().permission = permission
-              console.log(self.$auth.user())
             })
             .catch(function (error) {
               console.log(error.data)

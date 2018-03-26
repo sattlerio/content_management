@@ -14,6 +14,9 @@ import UserProfile from 'src/components/Dashboard/Views/Pages/UserProfile/UserPr
 import EditUser from 'src/components/Dashboard/Views/Pages/UserProfile/EditUser.vue'
 import UserPassword from 'src/components/Dashboard/Views/Pages/UserProfile/EditUserPassword.vue'
 
+// Company
+import CompanyDetails from 'src/components/Dashboard/Views/Company/Details.vue'
+
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 import Logout from 'src/components/Dashboard/Views/Pages/Logout.vue'
@@ -42,6 +45,22 @@ let userMenu = {
       path: 'password',
       name: 'Change password',
       component: UserPassword
+    }
+  ]
+}
+
+let companyMenu = {
+  path: '/company/:company_id',
+  component: DashboardLayout,
+  meta: {
+    auth: true
+  },
+  redirect: '/company/details/:company_id',
+  children: [
+    {
+      path: '/company/details/:company_id',
+      name: 'Company Details',
+      component: CompanyDetails
     }
   ]
 }
@@ -99,8 +118,10 @@ const routes = [
         name: 'Overview with Company id',
         component: Overview
       }
+
     ]
   },
+  companyMenu,
   {
     path: '/',
     component: DashboardGeneralLayout,
