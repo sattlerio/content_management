@@ -1,23 +1,21 @@
 <template>
   <spinner v-if="loading"></spinner>
-  <div class="row" v-else>
+  <div class="row" v-else="!loading">
     <div class="col-lg-4 col-md-5">
       <div class="card card-user">
         <div class="clearfix"></div>
         <div class="card-content">
           <div class="author">
-            <img class="avatar border-white" v-bind:src="company_logo" width="100px" alt="">
-            <h4 class="title">Chet Faker
+            <img class="avatar border-white" v-bind:src="company_logo" width="100px" v-bind:alt="company.name">
+            <h4 class="title">{{ company.name }}
               <br>
-              <a href="#">
-                <small>@chetfaker</small>
-              </a>
+              <small>{{ company.company_uuid }}</small>
             </h4>
           </div>
           <p class="description text-center">
-            "I like the way you work it
-            <br> No diggity
-            <br> I wanna bag it up"
+            {{ company.address}}
+            <br> {{ company.zip}} - {{ company.city }}
+            <br> {{ company_country.country.name }}
           </p>
         </div>
         <hr>
@@ -36,71 +34,74 @@
     <div class="col-lg-8 col-md-7">
       <div class="card">
         <div class="card-header">
-          <h4 class="title">Edit Profile</h4>
+          <h4 class="title">Details</h4>
         </div>
         <div class="card-content">
-          <form>
-            <div class="row">
-              <div class="col-md-5">
-                <fg-input type="text"
-                          label="Company"
-                          :disabled="true"
-                          placeholder="Paper dashboard"
-                >
-                </fg-input>
-              </div>
-              <div class="col-md-3">
-
-                <fg-input type="text"
-                          label="Username"
-                          placeholder="Username"
-                >
-                </fg-input>
-              </div>
-              <div class="col-md-4">
-                <fg-input type="email"
-                          label="Username"
-                          placeholder="Email"
-                >
-                </fg-input>
-              </div>
+          <div class="row">
+            <div class="col-md-12">
+              <fg-input type="text"
+                        label="Company ID"
+                        v-bind:value="company.company_uuid"
+                        :disabled="true"
+              >
+              </fg-input>
             </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <fg-input type="text"
-                          label="First Name"
-                          placeholder="First Name"
-                >
-                </fg-input>
-              </div>
-              <div class="col-md-6">
-                <fg-input type="text"
-                          label="Last Name"
-                          placeholder="Last Name"
-                >
-                </fg-input>
-              </div>
+            <div class="col-md-12" v-show="company.vat">
+              <fg-input type="text"
+                        label="VAT"
+                        v-bind:value="company.vat"
+                        :disabled="true"
+              >
+              </fg-input>
             </div>
-
-            <div class="row">
-              <div class="col-md-12">
-                <fg-input type="text"
-                          label="Address"
-                          placeholder="Home Address"
-                >
-                </fg-input>
-              </div>
+            <div class="card-header">
+              <h4 class="title">Financial Settings</h4>
             </div>
-
-
-            <div class="text-center">
-              <button type="submit" class="btn btn-info btn-fill btn-wd">
-                Update Profile
-              </button>
+            <div class="col-md-12" v-show="company.vat">
+              <fg-input type="text"
+                        label="VAT"
+                        v-bind:value="company.vat"
+                        :disabled="true"
+              >
+              </fg-input>
             </div>
-            <div class="clearfix"></div>
-          </form>
+            <div class="card-header">
+              <h4 class="title">Contact</h4>
+            </div>
+            <div class="col-md-12">
+              <fg-input type="text"
+                        label="Phone"
+                        v-bind:value="company.phone_number"
+                        :disabled="true"
+              >
+              </fg-input>
+            </div>
+            <div class="col-md-12">
+              <fg-input type="text"
+                        label="General Email"
+                        v-bind:value="company.email_address"
+                        :disabled="true"
+              >
+              </fg-input>
+            </div>
+            <div class="col-md-12" v-show="company.accounting_email">
+              <fg-input type="text"
+                        label="Finance Contact"
+                        v-bind:value="company.accounting_email"
+                        :disabled="true"
+              >
+              </fg-input>
+            </div>
+            <div class="col-md-12" v-show="company.technical_email">
+              <fg-input type="text"
+                        label="Technical Contact"
+                        v-bind:value="company.technical_email"
+                        :disabled="true"
+              >
+              </fg-input>
+            </div>
+          </div>
+          <div class="clearfix"></div>
         </div>
       </div>
     </div>
@@ -109,6 +110,7 @@
 <script>
   import Spinner from 'src/components/UIComponents/Spinner.vue'
   import axios from 'axios'
+
   export default {
     components: {
       Spinner
@@ -119,11 +121,24 @@
         let routeParams = self.$route.params
         axios.get('/api/company/details/' + routeParams.company_id)
           .then(function (response) {
+            self.company = response.data
+            self.company_country = self.fetchCountryInformation(self.company.country_id)
             self.loading = false
-            self.user = response.data.data
           })
           .catch(function (error) {
             self.loading = false
+            console.log(error)
+            self.$router.push('/server-error')
+          })
+      },
+      fetchCountryInformation: function (countryId) {
+        const self = this
+        let routeParams = self.$route.params
+        axios.get('/resources/geo/country/' + countryId)
+          .then(function (response) {
+            self.company_country = response.data
+          })
+          .catch(function (error) {
             console.log(error)
             self.$router.push('/server-error')
           })
@@ -136,16 +151,8 @@
       return {
         loading: true,
         company_logo: 'static/img/default-company-logo.jpg',
-        user: {
-          company: 'Paper Dashboard',
-          username: 'michael23',
-          email: '',
-          lastName: 'Faker',
-          address: 'Melbourne, Australia',
-          city: 'melbourne',
-          postalCode: '',
-          aboutMe: `Oh so, your weak rhyme. You doubt I'll bother, reading into it.I'll probably won't, left to my own devicesBut that's the difference in our opinions.`
-        }
+        company: null,
+        company_country: null
       }
     }
   }

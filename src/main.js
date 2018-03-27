@@ -35,8 +35,6 @@ Vue.use(SideBar, {sidebarLinks: sidebarLinks})
 Vue.use(VeeValidate)
 Vue.use(VueAxios, axios)
 Vue.axios.defaults.baseURL = 'http://localhost:8080'
-Vue.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-Vue.axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Authorization'
 
 locale.use(lang)
 
