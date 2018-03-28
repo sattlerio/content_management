@@ -55,15 +55,26 @@
               </fg-input>
             </div>
             <div class="card-header">
-              <h4 class="title">Financial Settings</h4>
+              <h4 class="title">Settings</h4>
             </div>
-            <div class="col-md-12" v-show="company.vat">
+            <div class="col-md-12">
               <fg-input type="text"
-                        label="VAT"
-                        v-bind:value="company.vat"
+                        label="Currency"
+                        v-bind:value="company_currency.data.name"
                         :disabled="true"
               >
               </fg-input>
+            </div>
+            <div class="col-md-12">
+              <fg-input type="text"
+                        label="Language"
+                        v-bind:value="company_language.language.name"
+                        :disabled="true"
+              >
+              </fg-input>
+            </div>
+            <div class="col-md-12" v-if="checkUserPermission()">
+              <a href="" class="btn btn-default right">Edit Settings</a>
             </div>
             <div class="card-header">
               <h4 class="title">Contact</h4>
@@ -100,6 +111,9 @@
               >
               </fg-input>
             </div>
+            <div class="col-md-12" v-if="checkUserPermission()">
+              <a href="" class="btn btn-default right">Edit Contacts</a>
+            </div>
           </div>
           <div class="clearfix"></div>
         </div>
@@ -123,6 +137,8 @@
           .then(function (response) {
             self.company = response.data
             self.company_country = self.fetchCountryInformation(self.company.country_id)
+            self.company_language = self.fetchLanguageInformation(self.company.language_id)
+            self.company_currency = self.fetchCurrencyInformation(self.company.currency_id)
             self.loading = false
           })
           .catch(function (error) {
@@ -133,7 +149,6 @@
       },
       fetchCountryInformation: function (countryId) {
         const self = this
-        let routeParams = self.$route.params
         axios.get('/resources/geo/country/' + countryId)
           .then(function (response) {
             self.company_country = response.data
@@ -142,6 +157,36 @@
             console.log(error)
             self.$router.push('/server-error')
           })
+      },
+      fetchCurrencyInformation: function (currencyId) {
+        const self = this
+        axios.get('/resources/money/currency/' + currencyId)
+          .then(function (response) {
+            self.company_currency = response.data
+          })
+          .catch(function (error) {
+            console.log(error)
+            self.$router.push('/server-error')
+          })
+      },
+      fetchLanguageInformation: function (languageId) {
+        const self = this
+        axios.get('/resources/geo/language/' + languageId)
+          .then(function (response) {
+            self.company_language = response.data
+          })
+          .catch(function (error) {
+            console.log(error)
+            self.$router.push('/server-error')
+          })
+      },
+      checkUserPermission: function () {
+        const self = this
+        if (self.edit_permission.includes(self.user_permission)) {
+          return true
+        } else {
+          return false
+        }
       }
     },
     mounted () {
@@ -152,7 +197,10 @@
         loading: true,
         company_logo: 'static/img/default-company-logo.jpg',
         company: null,
-        company_country: null
+        company_country: null,
+        company_language: null,
+        user_permission: this.$auth.user().permission,
+        edit_permission: ['admin', 'manager']
       }
     }
   }
