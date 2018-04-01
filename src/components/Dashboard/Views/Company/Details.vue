@@ -1,6 +1,7 @@
 <template>
   <spinner v-if="loading"></spinner>
-  <div class="row" v-else="!loading">
+  <div class="row" v-else-if="company && company_country && company_currency && company_language">
+    {{ checkUserPermission() }}
     <div class="col-lg-4 col-md-5">
       <div class="card card-user">
         <div class="clearfix"></div>
@@ -18,20 +19,9 @@
             <br> {{ company_country.country.name }}
           </p>
         </div>
-        <hr>
-        <div class="text-center">
-          <div class="row">
-            <div v-for="(info,index) in details" :class="getClasses(index)">
-              <h5>{{info.title}}
-                <br>
-                <small>{{info.subTitle}}</small>
-              </h5>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
-    <div class="col-lg-8 col-md-7">
+    <div class="col-lg-8 col-md-7" v-if="company && company_country">
       <div class="card">
         <div class="card-header">
           <h4 class="title">Details</h4>
@@ -73,13 +63,14 @@
               >
               </fg-input>
             </div>
-            <div class="col-md-12" v-if="checkUserPermission()">
-              <a href="" class="btn btn-default right">Edit Settings</a>
+            <div class="col-md-12 text-right" v-if="checkUserPermission()">
+              <router-link class="btn btn-default ":to="{ name: 'Edit Company Settings', params: { company_id: company_id }}">Edit Settings</router-link>
             </div>
+            <div class="clearfix"></div>
             <div class="card-header">
               <h4 class="title">Contact</h4>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 ">
               <fg-input type="text"
                         label="Phone"
                         v-bind:value="company.phone_number"
@@ -136,9 +127,9 @@
         axios.get('/api/company/details/' + routeParams.company_id)
           .then(function (response) {
             self.company = response.data
-            self.company_country = self.fetchCountryInformation(self.company.country_id)
-            self.company_language = self.fetchLanguageInformation(self.company.language_id)
-            self.company_currency = self.fetchCurrencyInformation(self.company.currency_id)
+            self.fetchCountryInformation(response.data.country_id)
+            self.fetchLanguageInformation(response.data.language_id)
+            self.fetchCurrencyInformation(response.data.currency_id)
             self.loading = false
           })
           .catch(function (error) {
@@ -182,24 +173,26 @@
       },
       checkUserPermission: function () {
         const self = this
-        if (self.edit_permission.includes(self.user_permission)) {
+        if (self.edit_permission.includes(self.$auth.user().permission)) {
           return true
         } else {
           return false
         }
       }
     },
-    mounted () {
+    created () {
+      this.company_id = this.$route.params.company_id
       this.loadUserData()
     },
     data () {
       return {
         loading: true,
+        company_id: null,
         company_logo: 'static/img/default-company-logo.jpg',
         company: null,
         company_country: null,
         company_language: null,
-        user_permission: this.$auth.user().permission,
+        company_currency: null,
         edit_permission: ['admin', 'manager']
       }
     }

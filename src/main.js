@@ -11,6 +11,7 @@ import App from './App.vue'
 import GlobalComponents from './gloablComponents'
 import GlobalDirectives from './globalDirectives'
 import SideBar from './components/UIComponents/SidebarPlugin'
+import VTooltip from 'v-tooltip'
 
 // router setup
 import routes from './routes/routes'
@@ -34,6 +35,7 @@ Vue.use(VueNotify)
 Vue.use(SideBar, {sidebarLinks: sidebarLinks})
 Vue.use(VeeValidate)
 Vue.use(VueAxios, axios)
+Vue.use(VTooltip)
 Vue.axios.defaults.baseURL = 'http://localhost:8080'
 
 locale.use(lang)
@@ -82,6 +84,11 @@ Vue.use(require('@websanova/vue-auth'), {
     url: '/auth/refresh',
     method: 'GET',
     enabled: true
+  }
+})
+
+Vue.mixin({
+  methods: {
   }
 })
 

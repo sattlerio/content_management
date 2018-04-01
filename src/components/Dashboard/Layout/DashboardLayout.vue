@@ -1,6 +1,5 @@
-<template>
+<template v-if="$auth.ready()">
   <div class="wrapper">
-
     <side-bar type="sidebar" :sidebar-links="$sidebar.sidebarLinks">
       <user-menu></user-menu>
       <form class="navbar-form navbar-left navbar-search-form navbar-search-form-mobile" role="search">
@@ -32,6 +31,7 @@
   import DashboardContent from './Content.vue'
   import UserMenu from 'src/components/UIComponents/SidebarPlugin/UserMenu.vue'
   import MobileMenu from 'src/components/UIComponents/SidebarPlugin/MobileMenu.vue'
+  import router from 'vue-router'
 
   export default {
     components: {
@@ -42,9 +42,19 @@
       MobileMenu
     },
     methods: {
+      checkPermissionOnRoute () {
+        if (this.$route.meta.permission) {
+          if (!this.$auth.user().permission || !this.$route.meta.permission.includes(this.$auth.user().permission)) {
+            this.$router.replace('/server-error')
+          }
+        }
+      },
       getUserPermission () {
+        console.log('permissio n')
+        console.log(this.$router)
+        console.log(this.$router.currentRoute)
         const self = this
-        let routeParams = self.$route.params
+        let routeParams = this.$router.currentRoute.params
         if (routeParams.company_id) {
           self.axios.get('/auth/user/permission/' + routeParams.company_id)
             .then(function (response) {
@@ -53,10 +63,11 @@
             })
             .catch(function (error) {
               console.log(error.data)
-              self.router.push('/server-error')
+              this.$router.push('/server-error')
             })
         } else {
-          self.router.push('/')
+          alert('weiterleiten ohne')
+          this.$router.push('/')
         }
       },
       toggleSidebar () {
@@ -65,8 +76,12 @@
         }
       }
     },
-    mounted () {
+    created () {
       this.getUserPermission()
+      this.checkPermissionOnRoute()
+    },
+    watch: {
+      '$route': 'checkPermissionOnRoute'
     }
   }
 

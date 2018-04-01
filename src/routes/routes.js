@@ -16,6 +16,7 @@ import UserPassword from 'src/components/Dashboard/Views/Pages/UserProfile/EditU
 
 // Company
 import CompanyDetails from 'src/components/Dashboard/Views/Company/Details.vue'
+import CompanySettings from 'src/components/Dashboard/Views/Company/Settings.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -61,6 +62,15 @@ let companyMenu = {
       path: '/company/details/:company_id',
       name: 'Company Details',
       component: CompanyDetails
+    },
+    {
+      path: '/company/settings/:company_id',
+      name: 'Edit Company Settings',
+      component: CompanySettings,
+      meta: {
+        auth: true,
+        permission: ['admin', 'manager']
+      }
     }
   ]
 }
@@ -142,7 +152,7 @@ const routes = [
       }
     ]
   },
-  {path: '*', component: NotFound},
+  {path: '*', name: 'Not Found', component: NotFound},
   {path: '/server-error', component: ServerError}
 ]
 
