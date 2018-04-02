@@ -17,6 +17,7 @@ import UserPassword from 'src/components/Dashboard/Views/Pages/UserProfile/EditU
 // Company
 import CompanyDetails from 'src/components/Dashboard/Views/Company/Details.vue'
 import CompanySettings from 'src/components/Dashboard/Views/Company/Settings.vue'
+import ComanyContacts from 'src/components/Dashboard/Views/Company/Contacts.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -67,6 +68,15 @@ let companyMenu = {
       path: '/company/settings/:company_id',
       name: 'Edit Company Settings',
       component: CompanySettings,
+      meta: {
+        auth: true,
+        permission: ['admin', 'manager']
+      }
+    },
+    {
+      path: '/company/contacts/:company_id',
+      name: 'Manage Company Contacts',
+      component: ComanyContacts,
       meta: {
         auth: true,
         permission: ['admin', 'manager']

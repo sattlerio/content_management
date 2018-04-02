@@ -102,8 +102,8 @@
               >
               </fg-input>
             </div>
-            <div class="col-md-12" v-if="checkUserPermission()">
-              <a href="" class="btn btn-default right">Edit Contacts</a>
+            <div class="col-md-12 text-right" v-if="checkUserPermission()">
+              <router-link class="btn btn-default ":to="{ name: 'Manage Company Contacts', params: { company_id: company_id }}">Edit Settings</router-link>
             </div>
           </div>
           <div class="clearfix"></div>
