@@ -19,6 +19,10 @@ import CompanyDetails from 'src/components/Dashboard/Views/Company/Details.vue'
 import CompanySettings from 'src/components/Dashboard/Views/Company/Settings.vue'
 import ComanyContacts from 'src/components/Dashboard/Views/Company/Contacts.vue'
 
+// Accounting
+import TaxIndex from 'src/components/Dashboard/Views/Accounting/TaxIndex.vue'
+import TaxCreate from 'src/components/Dashboard/Views/Accounting/TaxCreate.vue'
+
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 import Logout from 'src/components/Dashboard/Views/Pages/Logout.vue'
@@ -49,6 +53,35 @@ let userMenu = {
       component: UserPassword
     }
   ]
+}
+
+let taxMenu = {
+  path: '/accounting/:company_id',
+  component: DashboardLayout,
+  meta: {
+    auth: true
+  },
+  permission: ['admin', 'manager', 'accountant'],
+  redirect: '/company/details/:company_id',
+  children: [
+    {
+      path: '/accounting/tax/:company_id',
+      name: 'Tax Settings',
+      component: TaxIndex,
+      meta: {
+        permission: ['admin', 'manager', 'accountant']
+      }
+    },
+    {
+      path: '/accounting/tax/create/:company_id',
+      name: 'Create New Tax',
+      component: TaxCreate,
+      meta: {
+        permission: ['admin', 'manager', 'accountant']
+      }
+    }
+  ]
+
 }
 
 let companyMenu = {
@@ -142,6 +175,7 @@ const routes = [
     ]
   },
   companyMenu,
+  taxMenu,
   {
     path: '/',
     component: DashboardGeneralLayout,

@@ -28,5 +28,16 @@ export default [
         path: '/company/users'
       }
     ]
+  },
+  {
+    name: 'Accounting',
+    icon: 'fa fa-calculator',
+    company_route: true,
+    children: [
+      {
+        name: 'Tax',
+        path: '/accounting/tax'
+      }
+    ]
   }
 ]

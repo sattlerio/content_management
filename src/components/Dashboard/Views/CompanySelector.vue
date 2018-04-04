@@ -87,7 +87,8 @@
       axios.get('/auth/fetch/user_companies')
         .then(function (response) {
           if (response.data.single_company) {
-            next(false)
+            var companyId = response.data.companies[0].company_id
+            next('/admin/overview/' + companyId)
           }
           next(vm => {
             vm.selects.companies = response.data.companies
