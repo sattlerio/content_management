@@ -4,7 +4,11 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="title">Edit Tax</h4>
+          <router-link class="pull-right btn btn-default"
+                       :to="{ name: 'Tax Settings', params: { company_id: company_id }}">Back
+          </router-link>
+          <h4 class="title pull-left">Edit Tax</h4>
+          <div class="clearfix"></div>
         </div>
         <div class="card-content">
           <form>
@@ -68,7 +72,6 @@
 </template>
 <script>
   import Spinner from 'src/components/UIComponents/Spinner.vue'
-  import axios from 'axios'
   import {mapFields} from 'vee-validate'
 
 

@@ -4,7 +4,11 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="title">Create new Tax Group</h4>
+          <router-link class="pull-right btn btn-default"
+                       :to="{ name: 'Tax Settings', params: { company_id: $route.params.company_id }}">Back
+          </router-link>
+          <h4 class="title pull-left">Create new tax group</h4>
+          <div class="clearfix"></div>
         </div>
         <div class="card-content">
           <form>

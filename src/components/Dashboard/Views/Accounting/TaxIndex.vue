@@ -13,13 +13,14 @@
         <div class="card-content">
           <v-client-table :data="tableData" ref="taxTable" :columns="columns" :options="options">
             <div class="action_container" slot="action" slot-scope="props">
-              <a  target="_blank" :href="props.row.tax_id"
-                 class="glyphicon glyphicon-eye-open"
-                  v-tooltip="{
+
+              <router-link class="glyphicon glyphicon-eye-open"
+                           :to="{ name: 'View Tax', params: { tax_id: props.row.tax_id, company_id: company_id }}"
+                           v-tooltip="{
                     content: 'View Tax and Tax Rules',
                     placement: 'top',
                   }"
-              ></a>
+              ></router-link>
               <router-link class="fa fa-edit black"
                            :to="{ name: 'Edit Tax', params: { tax_id: props.row.tax_id, company_id: company_id }}"
                            v-tooltip="{
