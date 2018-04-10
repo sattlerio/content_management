@@ -4,11 +4,11 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="title">Create new Tax Group</h4>
+          <h4 class="title">Edit Tax</h4>
         </div>
         <div class="card-content">
           <form>
-            <h5>Basic Configuration</h5>
+            <h5>Update Tax - {{ tax.name }}</h5>
             <div class="row">
               <div class="col-sm-12 form-group">
                 <label for="tax_name">Tax Rule Name
@@ -18,11 +18,11 @@
                     }"
                   ></i>
                 </label>
-                <input type="text" name="tax_name" v-model="tax.tax_name" v-validate="modelValidations.tax_name"
+                <input type="text" name="name" v-model="tax.name" v-validate="modelValidations.name"
                        class="form-control"
                 >
-                <small class="text-danger" v-show="tax_name.invalid">
-                  {{ getError('tax_name') }}
+                <small class="text-danger" v-show="name.invalid">
+                  {{ getError('name') }}
                 </small>
               </div>
               <div class="col-sm-12 form-group">
@@ -36,8 +36,8 @@
                   </label>
                 </div>
                 <div class="col-sm-10">
-                  <input type="text" name="default_tax" v-model="tax.default_tax"
-                         v-validate="modelValidations.default_tax"
+                  <input type="text" name="default_rate" v-model="tax.default_rate"
+                         v-validate="modelValidations.default_rate"
                          class="form-control"
                   >
                 </div>
@@ -46,8 +46,8 @@
                 </div>
               </div>
               <div class="col-sm-12">
-                <small class="text-danger" v-show="default_tax.invalid">
-                  {{ getError('default_tax') }}
+                <small class="text-danger" v-show="default_rate.invalid">
+                  {{ getError('default_rate') }}
                 </small>
               </div>
             </div>
@@ -77,11 +77,35 @@
       Spinner
     },
     computed: {
-      ...mapFields(['tax_name', 'default_tax'])
+      ...mapFields(['name', 'default_rate'])
+    },
+    watch: {
+      // call again the method if the route changes
+      '$route': 'fetchData'
+    },
+    created () {
+      this.company_id = this.$route.params.company_id
+      this.fetchData()
+      this.tableData = this.fetchData()
     },
     methods: {
       getError (fieldName) {
         return this.errors.first(fieldName)
+      },
+      fetchData: function () {
+        this.loading = true
+        const self = this
+        let routeParams = self.$route.params
+        this.axios.get('/api/accounting/tax/' + routeParams.tax_id + '/' + routeParams.company_id)
+          .then(function (response) {
+            self.loading = false
+            self.tax = response.data.data
+          })
+          .catch(function (error) {
+            self.loading = false
+            console.log(error)
+            self.$router.push('/server-error')
+          })
       },
       validate () {
         this.$validator.validateAll()
@@ -89,10 +113,10 @@
             const self = this
             if (result) {
               let data = JSON.stringify({
-                tax_name: self.tax.tax_name,
-                default_tax: self.tax.default_tax
+                tax_name: self.tax.name,
+                default_tax: self.tax.default_rate
               })
-              self.axios.post('/api/accounting/tax/create/' + self.$route.params.company_id, data, {
+              self.axios.post('/api/accounting/tax/edit/' + self.$route.params.company_id + '/' + self.$route.params.tax_id, data, {
                 headers: {
                   'Content-Type': 'application/json'
                 }
@@ -100,7 +124,7 @@
                 .then(function () {
                   self.$notify({
                     component: {
-                      template: `<span><b> Success </b> - You successfully created a new tax</span>`
+                      template: `<span><b> Success </b> - You successfully edited this tax.</span>`
                     },
                     icon: 'ti-check',
                     horizontalAlign: 'right', // right | center | left
@@ -129,19 +153,15 @@
       return {
         loading: false,
         modelValidations: {
-          tax_name: {
+          name: {
             required: true
           },
-          default_tax: {
+          default_rate: {
             required: true,
             decimal: 2,
             min_value: 0.00,
             max_value: 100.00
           }
-        },
-        tax: {
-          tax_name: '',
-          default_tax: 0.00
         }
       }
     }

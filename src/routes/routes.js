@@ -22,6 +22,7 @@ import ComanyContacts from 'src/components/Dashboard/Views/Company/Contacts.vue'
 // Accounting
 import TaxIndex from 'src/components/Dashboard/Views/Accounting/TaxIndex.vue'
 import TaxCreate from 'src/components/Dashboard/Views/Accounting/TaxCreate.vue'
+import TaxEdit from 'src/components/Dashboard/Views/Accounting/TaxEdit.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -76,6 +77,14 @@ let taxMenu = {
       path: '/accounting/tax/create/:company_id',
       name: 'Create New Tax',
       component: TaxCreate,
+      meta: {
+        permission: ['admin', 'manager', 'accountant']
+      }
+    },
+    {
+      path: '/accounting/tax/edit/:tax_id/:company_id',
+      name: 'Edit Tax',
+      component: TaxEdit,
       meta: {
         permission: ['admin', 'manager', 'accountant']
       }
