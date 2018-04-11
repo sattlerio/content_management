@@ -25,6 +25,7 @@ import TaxCreate from 'src/components/Dashboard/Views/Accounting/TaxCreate.vue'
 import TaxEdit from 'src/components/Dashboard/Views/Accounting/TaxEdit.vue'
 import TaxView from 'src/components/Dashboard/Views/Accounting/TaxView.vue'
 import TaxRuleCreate from 'src/components/Dashboard/Views/Accounting/TaxRuleCreate.vue'
+import TaxRuleEdit from 'src/components/Dashboard/Views/Accounting/TaxRuleEdit.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -95,6 +96,14 @@ let taxMenu = {
       path: '/accounting/tax/details/:tax_id/:company_id',
       name: 'View Tax',
       component: TaxView,
+      meta: {
+        permission: ['admin', 'manager', 'accountant']
+      }
+    },
+    {
+      path: '/accounting/tax/rule/edit/:tax_rule_id/:tax_id/:company_id',
+      name: 'Edit Tax Rule',
+      component: TaxRuleEdit,
       meta: {
         permission: ['admin', 'manager', 'accountant']
       }

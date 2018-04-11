@@ -64,8 +64,11 @@
                 <template slot-scope="props">
                   <a class="btn btn-simple btn-info btn-xs btn-icon view"
                      @click="handleView(props.row)"><i class="ti-search"></i></a>
-                  <a class="btn btn-simple btn-warning btn-xs btn-icon edit"
-                     @click="handleDelete (props.$index, props.row)"><i class="ti-pencil-alt"></i></a>
+                  <router-link class="btn btn-simple btn-warning btn-xs btn-icon edit"
+                               :to="{ name: 'Edit Tax Rule', params: { tax_rule_id: props.row.rule_id ,tax_id: $route.params.tax_id, company_id: $route.params.company_id }}"
+                  >
+                  <i class="ti-pencil-alt"></i>
+                  </router-link>
                   <a class="btn btn-simple btn-danger btn-xs btn-icon remove"
                      @click="showDeleteModal(props.row)"><i class="ti-close"></i></a>
                 </template>
@@ -97,7 +100,7 @@
                 <a class="btn btn-simple btn-info btn-xs btn-icon like"
                    @click="handleLike(props.$index, props.row)"><i class="ti-heart"></i></a>
                 <a class="btn btn-simple btn-warning btn-xs btn-icon edit"
-                   @click="handleEdit(props.$index, props.row)"><i class="ti-pencil-alt"></i></a>
+                   @click="handleEdit(props.$index, props.row)"></a>
                 <a class="btn btn-simple btn-danger btn-xs btn-icon remove"
                    @click="handleDelete(props.$index, props.row)"><i class="ti-close"></i></a>
               </template>
