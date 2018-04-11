@@ -50,9 +50,6 @@
         }
       },
       getUserPermission () {
-        console.log('permissio n')
-        console.log(this.$router)
-        console.log(this.$router.currentRoute)
         const self = this
         let routeParams = this.$router.currentRoute.params
         if (routeParams.company_id) {
@@ -60,13 +57,13 @@
             .then(function (response) {
               let permission = response.data.permission
               self.$auth.user().permission = permission
+              self.checkPermissionOnRoute()
             })
             .catch(function (error) {
               console.log(error.data)
               this.$router.push('/server-error')
             })
         } else {
-          alert('weiterleiten ohne')
           this.$router.push('/')
         }
       },
@@ -78,7 +75,9 @@
     },
     created () {
       this.getUserPermission()
-      this.checkPermissionOnRoute()
+      if (this.$auth.user().permission) {
+        this.checkPermissionOnRoute()
+      }
     },
     watch: {
       '$route': 'checkPermissionOnRoute'
