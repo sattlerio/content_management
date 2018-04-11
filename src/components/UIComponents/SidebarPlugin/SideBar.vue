@@ -22,14 +22,14 @@
                         :key="link.name + index"
                         :link="link"
                         :company_route="link.company_route"
-                        v-if="link.company_route === true"
+                        v-if="link.company_route === true && (!link.permission || link.permission.includes(user_perm))"
           >
 
             <sidebar-item v-for="(subLink, index) in link.children"
                           :key="subLink.name + index"
                           :link="subLink"
                           :company_route="link.company_route"
-                          v-if="link.company_route === true"
+                          v-if="link.company_route === true && (!subLink.permission || subLink.permission.includes(user_perm))"
             >
             </sidebar-item>
           </sidebar-item>
@@ -63,7 +63,8 @@
   export default {
     data () {
       return {
-        company_route: false
+        company_route: false,
+        user_perm: 'default'
       }
     },
     props: {
@@ -125,9 +126,11 @@
         await import('perfect-scrollbar/dist/css/perfect-scrollbar.css')
         const PerfectScroll = await import('perfect-scrollbar')
         PerfectScroll.initialize(this.$refs.sidebarScrollArea)
+        this.generateSidebarItems()
       },
 
       generateSidebarItems () {
+        this.user_perm = this.$auth.user().permission
         const self = this
         let routeParams = self.$route.params
         if (routeParams.company_id) {
@@ -137,8 +140,7 @@
         }
       }
     },
-    mounted () {
-      this.generateSidebarItems()
+    created () {
       this.initScrollBarAsync()
     },
     beforeDestroy () {

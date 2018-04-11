@@ -33,6 +33,7 @@ export default [
     name: 'Accounting',
     icon: 'fa fa-calculator',
     company_route: true,
+    permission: ['admin', 'manager', 'accountant'],
     children: [
       {
         name: 'Tax',
