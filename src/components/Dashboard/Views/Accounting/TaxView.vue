@@ -91,21 +91,30 @@
             <el-table-column prop="name"
                              label="Name">
             </el-table-column>
-            <el-table-column prop="job"
-                             label="Job Position">
+            <el-table-column prop="human_rule"
+                             label="Tax rate">
             </el-table-column>
-            <el-table-column prop="salary"
-                             label="Salary">
+            <el-table-column
+              label="Conditions">
+              <template slot-scope="props">
+                <div>
+                  <span v-show="props.row.countries.length > 0" v-for="country in props.row.countries">{{ country }}, </span>
+                  <span v-show="props.row.countries.length === 0">Rest of the world</span>
+                </div>
+              </template>
             </el-table-column>
             <el-table-column
               label="Actions">
               <template slot-scope="props">
-                <a class="btn btn-simple btn-info btn-xs btn-icon like"
-                   @click="handleLike(props.$index, props.row)"><i class="ti-heart"></i></a>
-                <a class="btn btn-simple btn-warning btn-xs btn-icon edit"
-                   @click="handleEdit(props.$index, props.row)"></a>
+                <a class="btn btn-simple btn-info btn-xs btn-icon view"
+                   @click="handleView(props.row)"><i class="ti-search"></i></a>
+                <router-link class="btn btn-simple btn-warning btn-xs btn-icon edit"
+                             :to="{ name: 'Edit Tax Rule', params: { tax_rule_id: props.row.rule_id ,tax_id: $route.params.tax_id, company_id: $route.params.company_id }}"
+                >
+                  <i class="ti-pencil-alt"></i>
+                </router-link>
                 <a class="btn btn-simple btn-danger btn-xs btn-icon remove"
-                   @click="handleDelete(props.$index, props.row)"><i class="ti-close"></i></a>
+                   @click="showDeleteModal(props.row)"><i class="ti-close"></i></a>
               </template>
             </el-table-column>
           </el-table>
