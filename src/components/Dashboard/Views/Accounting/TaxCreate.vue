@@ -101,7 +101,7 @@
                   'Content-Type': 'application/json'
                 }
               })
-                .then(function () {
+                .then(function (response) {
                   self.$notify({
                     component: {
                       template: `<span><b> Success </b> - You successfully created a new tax</span>`
@@ -111,7 +111,7 @@
                     verticalAlign: 'top', // top | bottom
                     type: 'success'  // info | success | warning | danger
                   })
-                  self.$router.push('/accounting/tax/' + self.$route.params.company_id)
+                  self.$router.push('/accounting/tax/details/' + response.data.tax_id + '/' + self.$route.params.company_id)
                 })
                 .catch(function (error) {
                   console.log(error)

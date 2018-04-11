@@ -135,6 +135,7 @@
     },
     created () {
       this.company_id = this.$route.params.company_id
+      this.tax_id = this.$route.params.tax_id
       this.fetchData()
     },
     methods: {
@@ -196,7 +197,7 @@
                     verticalAlign: 'top', // top | bottom
                     type: 'success'  // info | success | warning | danger
                   })
-                  self.$router.push('/accounting/tax/' + self.$route.params.company_id)
+                  self.$router.push('/accounting/tax/details/' + self.$route.params.tax_id + '/' + self.$route.params.company_id)
                 })
                 .catch(function (error) {
                   console.log(error)

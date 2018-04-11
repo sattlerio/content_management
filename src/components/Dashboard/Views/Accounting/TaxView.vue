@@ -47,21 +47,27 @@
               <el-table-column prop="name"
                                label="Name">
               </el-table-column>
-              <el-table-column prop="job"
-                               label="Job Position">
+              <el-table-column prop="human_rule"
+                               label="Tax rate">
               </el-table-column>
-              <el-table-column prop="salary"
-                               label="Salary">
+              <el-table-column
+                label="Conditions">
+                <template slot-scope="props">
+                  <div>
+                  <span v-show="props.row.countries.length > 0" v-for="country in props.row.countries">{{ country }}, </span>
+                  <span v-show="props.row.countries.length === 0">Rest of the world</span>
+                  </div>
+                </template>
               </el-table-column>
               <el-table-column
                 label="Actions">
                 <template slot-scope="props">
-                  <a class="btn btn-simple btn-info btn-xs btn-icon like"
-                     @click="handleLike(props.$index, props.row)"><i class="ti-heart"></i></a>
+                  <a class="btn btn-simple btn-info btn-xs btn-icon view"
+                     @click="handleView(props.row)"><i class="ti-search"></i></a>
                   <a class="btn btn-simple btn-warning btn-xs btn-icon edit"
-                     @click="handleEdit(props.$index, props.row)"><i class="ti-pencil-alt"></i></a>
+                     @click="handleDelete (props.$index, props.row)"><i class="ti-pencil-alt"></i></a>
                   <a class="btn btn-simple btn-danger btn-xs btn-icon remove"
-                     @click="handleDelete(props.$index, props.row)"><i class="ti-close"></i></a>
+                     @click="showDeleteModal(props.row)"><i class="ti-close"></i></a>
                 </template>
               </el-table-column>
             </el-table>
@@ -106,6 +112,8 @@
   import Spinner from 'src/components/UIComponents/Spinner.vue'
   import {Table, TableColumn} from 'element-ui'
   import Vue from 'vue'
+  import swal from 'sweetalert2'
+  import 'sweetalert2/dist/sweetalert2.css'
 
   Vue.use(Table)
   Vue.use(TableColumn)
@@ -140,6 +148,77 @@
             console.log(error)
             self.$router.push('/server-error')
           })
+      },
+      handleView (row) {
+        const self = this
+        self.axios.get('/resources/geo/countries')
+          .then(function (response) {
+            self.countries = response.data
+            var content = ''
+            var availCountries = row.countries
+            if (availCountries.length > 0) {
+              console.log(self.countries)
+              for (var country in self.countries) {
+                var x = self.countries[country]
+                if (availCountries.indexOf(x['id']) !== -1) {
+                  content += '<li>' + x['name'] + ' (' + x['emoji'] + ')</li>'
+                  console.log(x)
+                }
+              }
+            } else {
+              content = '<li>This rule applies for the whole world</li>'
+            }
+            swal({
+              showCloseButton: true,
+              confirmButtonText: 'Close',
+              width: 700,
+              title: '<p>Tax Rule ' + row.name + '</p><hr/>',
+              html: '<div class="row text-left"><div class="col-md-6 form-group">' +
+              '<label>Tax Rate:</label><input class="form-control" value="ddd" disabled/></div>' +
+              '<div class="col-md-6 form-group"><label>Selected countries:</label>' +
+              '<ul class="no-apadding">' + content + '</ul></div></div>'
+            })
+          })
+          .catch(function (error) {
+            console.log(error)
+            self.$router.push('/server-error')
+          })
+      },
+      showDeleteModal (row) {
+        const self = this
+        swal({
+          title: 'Are you sure?',
+          text: 'Please confirm that you want to delete the tax group ' + row.name + '. If you delete this entry you cant restore it anymore.',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Delete'
+        }).then((result) => {
+          if (result) {
+            let routeParams = self.$route.params
+            self.axios.delete('/api/accounting/tax/delete/taxgroup/' + routeParams.tax_id + '/' + row.rule_id + '/' + routeParams.company_id)
+              .then(function (response) {
+                swal(
+                  'Deleted!',
+                  'You deleted the tax group successfully',
+                  'success'
+                )
+                let indexToDelete = self.tableData.findIndex((tableRow) => tableRow.id === row.id)
+                if (indexToDelete >= 0) {
+                  self.tableData.splice(indexToDelete, 1)
+                }
+              })
+              .catch(function (error) {
+                console.log(error)
+                swal(
+                  'Error!',
+                  'Not possible to delete the tax group please try it again later',
+                  'error'
+                )
+              })
+          }
+        }).catch(function () {
+          return false
+        })
       }
     },
     data () {

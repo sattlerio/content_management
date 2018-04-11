@@ -70,7 +70,6 @@
           .then(function (response) {
             self.loading = false
             self.tableData = response.data.data
-            console.log(response.data.data)
             return response.data.data
           })
           .catch(function (error) {
@@ -92,7 +91,6 @@
             let routeParams = self.$route.params
             self.axios.delete('/api/accounting/tax/delete/' + row.tax_id + '/' + routeParams.company_id)
               .then(function (response) {
-                console.log(self.$refs)
                 self.$refs.taxTable.$parent.fetchData()
                 swal(
                   'Deleted!',
