@@ -30,6 +30,9 @@
               <router-link class="btn btn-default btn-center"
                            :to="{ name: 'Create new tax rule', params: { tax_id: $route.params.tax_id, company_id: $route.params.company_id }}"
               >Create new tax group</router-link>
+              <router-link class="btn btn-default btn-center"
+                           :to="{ name: 'Test Tax Configuration', params: { tax_id: $route.params.tax_id, company_id: $route.params.company_id }}"
+              >Test this Configuration</router-link>
             </div>
           </div>
         </div>

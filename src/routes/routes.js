@@ -26,6 +26,7 @@ import TaxEdit from 'src/components/Dashboard/Views/Accounting/TaxEdit.vue'
 import TaxView from 'src/components/Dashboard/Views/Accounting/TaxView.vue'
 import TaxRuleCreate from 'src/components/Dashboard/Views/Accounting/TaxRuleCreate.vue'
 import TaxRuleEdit from 'src/components/Dashboard/Views/Accounting/TaxRuleEdit.vue'
+import TaxTestConfiguration from 'src/components/Dashboard/Views/Accounting/TaxTestConfiguration.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -112,6 +113,14 @@ let taxMenu = {
       path: '/accounting/tax/edit/:tax_id/:company_id',
       name: 'Edit Tax',
       component: TaxEdit,
+      meta: {
+        permission: ['admin', 'manager', 'accountant']
+      }
+    },
+    {
+      path: '/accounting/tax/test/:tax_id/:company_id',
+      name: 'Test Tax Configuration',
+      component: TaxTestConfiguration,
       meta: {
         permission: ['admin', 'manager', 'accountant']
       }
