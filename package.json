@@ -30,12 +30,15 @@
     "vue-axios": "^2.0.2",
     "vue-clickaway": "^2.1.0",
     "vue-form-wizard": "^0.7.0",
+    "vue-google-autocomplete": "^1.1.0",
     "vue-nav-tabs": "^0.5.4",
     "vue-notifyjs": "^0.2.0",
     "vue-resource": "^1.5.0",
     "vue-router": "^3.0.1",
     "vue-spinner": "^1.0.3",
-    "vue-tables-2": "^1.4.0"
+    "vue-tables-2": "^1.4.0",
+    "vuetify": "^1.0.14",
+    "vuetify-google-autocomplete": "^2.0.0-Alpha.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

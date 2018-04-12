@@ -45,7 +45,7 @@
       checkPermissionOnRoute () {
         if (this.$route.meta.permission) {
           if (!this.$auth.user().permission || !this.$route.meta.permission.includes(this.$auth.user().permission)) {
-            this.$router.replace('/server-error')
+            this.$router.replace('/404')
           }
         }
       },
@@ -61,7 +61,7 @@
             })
             .catch(function (error) {
               console.log(error.data)
-              this.$router.push('/server-error')
+              self.$router.push('/server-error')
             })
         } else {
           this.$router.push('/')

@@ -28,6 +28,9 @@ import TaxRuleCreate from 'src/components/Dashboard/Views/Accounting/TaxRuleCrea
 import TaxRuleEdit from 'src/components/Dashboard/Views/Accounting/TaxRuleEdit.vue'
 import TaxTestConfiguration from 'src/components/Dashboard/Views/Accounting/TaxTestConfiguration.vue'
 
+// Events
+import EventsCreate from 'src/components/Dashboard/Views/Events/CreateEvent.vue'
+
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 import Logout from 'src/components/Dashboard/Views/Pages/Logout.vue'
@@ -56,6 +59,34 @@ let userMenu = {
       path: 'password',
       name: 'Change password',
       component: UserPassword
+    }
+  ]
+}
+
+let eventMenu = {
+  path: '/events/:company_id',
+  component: DashboardLayout,
+  meta: {
+    auth: true
+  },
+  redirect: '',
+  children: [
+    {
+      path: '/events/create/:company_id',
+      meta: {
+        permission: ['admin', 'manager'],
+        auth: true
+      },
+      name: 'Create new Event',
+      component: EventsCreate
+    },
+    {
+      path: '/events/overview/:company_id',
+      meta: {
+        auth: true
+      },
+      name: 'View all Events',
+      component: EventsCreate
     }
   ]
 }
@@ -221,6 +252,7 @@ const routes = [
   },
   companyMenu,
   taxMenu,
+  eventMenu,
   {
     path: '/',
     component: DashboardGeneralLayout,

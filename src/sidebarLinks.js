@@ -40,5 +40,21 @@ export default [
         path: '/accounting/tax'
       }
     ]
+  },
+  {
+    name: 'Event Module',
+    icon: 'fa fa-ticket',
+    company_route: true,
+    children: [
+      {
+        name: 'Overview',
+        path: '/events/overview'
+      },
+      {
+        name: 'Create a event',
+        path: '/events/create',
+        permission: ['admin', 'manager']
+      }
+    ]
   }
 ]

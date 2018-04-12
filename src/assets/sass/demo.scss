@@ -229,3 +229,80 @@ h4 .form-control {
   width: auto;
   display: inline;
 }
+
+#map .input-group label {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 30px;
+  height: 30px;
+  max-width: 90%;
+  min-width: 0;
+  overflow: hidden;
+  pointer-events: none;
+  text-align: left;
+  text-overflow: ellipsis;
+  -webkit-transform-origin: top left;
+  transform-origin: top left;
+  transition: .4s cubic-bezier(.25,.8,.25,1);
+  white-space: nowrap;
+  width: 100%;
+  z-index: 0;
+}
+
+#gmap_container .input-group--text-field input {
+  box-shadow: none;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+#gmap_container .input-group__details {
+  color: inherit;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 4px;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 100%;
+  flex: 1 0 100%;
+  font-size: 12px;
+  min-height: 26px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+#gmap_container .icon {
+  display: inline;
+  cursor: pointer;
+}
+
+#gmap_container input {
+  background-color: #F3F2EE;
+  border: 1px solid #e8e7e3;
+  border-radius: 4px;
+  color: #66615b;
+  font-size: 14px;
+  padding: 7px 18px;
+  height: 40px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  display: block;
+  width: 100% !important;
+  line-height: 1.42857143;
+}
+
+#gmap_container input:focus {
+  background-color: #FFFFFF;
+  border-color: #7AC29A;
+}
+
+#gmap_container .input-group, #card .input-group__input {
+  display: inherit !important;
+}
