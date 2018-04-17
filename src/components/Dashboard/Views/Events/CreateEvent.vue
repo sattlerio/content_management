@@ -86,9 +86,6 @@
       },
       wizardComplete () {
         const self = this
-        console.log('----------')
-        console.log(self.$refs.firstStep.model)
-        console.log('--------------')
         self.wizardModel = {
           ...self.$refs.firstStep.model,
           ...self.$refs.secondStep.model,
@@ -119,14 +116,14 @@
           .then(function (response) {
             self.$notify({
               component: {
-                template: `<span><b> Success </b> - You successfully created a new tax</span>`
+                template: `<span><b> Success </b> - You successfully created a new event</span>`
               },
               icon: 'ti-check',
               horizontalAlign: 'right', // right | center | left
               verticalAlign: 'top', // top | bottom
               type: 'success'  // info | success | warning | danger
             })
-            self.$router.push('/accounting/tax/details/' + response.data.tax_id + '/' + self.$route.params.company_id)
+            self.$router.push('/events/overview/' + response.data.tax_id + '/' + self.$route.params.company_id)
           })
           .catch(function (error) {
             console.log(error)
@@ -140,9 +137,6 @@
               type: 'danger'  // info | success | warning | danger
             })
           })
-
-        console.log(self.wizardModel)
-        alert('wiazard')
       }
     },
     data () {
