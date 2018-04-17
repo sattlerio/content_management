@@ -24,7 +24,7 @@
         <div class="form-group" id="gmap_container">
           <vuetify-google-autocomplete
             :id="'map'"
-            :clearable="true"
+            :clearable="false"
             :disabled="false"
             :name="'address'"
             :enable-geolocation="false"
@@ -57,7 +57,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -96,11 +95,9 @@
         },
         modelValidations: {
           name: {
-            min: 3,
             required: true
           },
           revenue: {
-            min: 3,
             required: true
           }
         }
@@ -112,15 +109,16 @@
       },
       validate () {
         this.location_error = ''
+        console.log(this.model)
         var modelLocation = this.model.location
-        if (modelLocation.street_number && modelLocation.street && modelLocation.country_id && modelLocation.latitude &&
+        if (modelLocation.street && modelLocation.country_id && modelLocation.latitude &&
             modelLocation.longitude && modelLocation.postal_code && modelLocation.city) {
           return this.$validator.validateAll()
         }
         this.location_error = 'Please select a valid address for your event'
+        return false
       },
       getAddressData: function (addressData, placeResultData) {
-        console.log(placeResultData)
         this.location_error = ''
         this.model.location = {
           street_number: '',
@@ -129,7 +127,8 @@
           latitude: 0.00,
           longitude: 0.00,
           postal_code: '',
-          city: ''
+          city: '',
+          venue: ''
         }
         placeResultData = placeResultData.address_components
         for (var i = 0; i < placeResultData.length; i++) {
@@ -148,6 +147,7 @@
         this.model.location.city = addressData.locality
         this.model.location.longitude = addressData.longitude
         this.model.location.street = addressData.route
+        this.model.location.venue = this.model.revenue
       },
       noResultsFound: function () {
         this.location_error = 'The submitted address does not exist'

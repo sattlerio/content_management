@@ -26,6 +26,18 @@
             <first-step ref="firstStep"></first-step>
           </tab-content>
 
+          <tab-content title="Date"
+                       :before-change="validateSecondStep"
+                       icon="ti-calendar">
+            <second-step ref="secondStep"></second-step>
+          </tab-content>
+
+          <tab-content title="Settings"
+                       :before-change="validateThirdStep"
+                       icon="ti-settings">
+            <third-step ref="thirdStep"></third-step>
+          </tab-content>
+
           <tab-content title="Last step"
                        icon="ti-check">
             <h2 class="text-center text-space">Yuhuuu!
@@ -48,6 +60,9 @@
   import {FormWizard, TabContent} from 'vue-form-wizard'
   import 'vue-form-wizard/dist/vue-form-wizard.min.css'
   import FirstStep from './EventsCreateWizard/FirstStep.vue'
+  import SecondStep from './EventsCreateWizard/secondStep.vue'
+  import ThirdStep from './EventsCreateWizard/ThirdStep.vue'
+  import moment from 'moment-timezone'
 
 
   export default {
@@ -55,17 +70,79 @@
       FormWizard,
       TabContent,
       FirstStep,
+      SecondStep,
+      ThirdStep,
       Spinner
     },
     methods: {
       validateFirstStep () {
         return this.$refs.firstStep.validate()
       },
+      validateSecondStep () {
+        return this.$refs.secondStep.validate()
+      },
+      validateThirdStep () {
+        return this.$refs.thirdStep.validate()
+      },
       wizardComplete () {
         const self = this
+        console.log('----------')
+        console.log(self.$refs.firstStep.model)
+        console.log('--------------')
         self.wizardModel = {
-          ...self.$refs.firstStep.model
+          ...self.$refs.firstStep.model,
+          ...self.$refs.secondStep.model,
+          ...self.$refs.thirdStep.model
         }
+        var timezone = moment.tz.guess()
+        var formattedStartDate = moment.tz(self.wizardModel.start_date, timezone)
+        var formattedEndDate = moment.tz(self.wizardModel.end_date, timezone)
+        let data = JSON.stringify({
+          default_currency_id: self.wizardModel.default_currency_id,
+          default_language_id: self.wizardModel.default_language_id,
+          end_date: self.wizardModel.end_date, // timezone
+          language_ids: self.wizardModel.language_ids,
+          location: self.wizardModel.location,
+          multidayevent: self.wizardModel.multidayevent,
+          multidayevent_dates: self.wizardModel.multidayevent_dates,
+          multilanguage: self.wizardModel.multilanguage,
+          name: self.$refs.firstStep.model.name,
+          venue: self.$refs.firstStep.model.revenue,
+          start_date: self.wizardModel.start_date, // timezone
+          company_id: self.$route.params.company_id
+        })
+        self.axios.post('/api/events/event/create', data, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(function (response) {
+            self.$notify({
+              component: {
+                template: `<span><b> Success </b> - You successfully created a new tax</span>`
+              },
+              icon: 'ti-check',
+              horizontalAlign: 'right', // right | center | left
+              verticalAlign: 'top', // top | bottom
+              type: 'success'  // info | success | warning | danger
+            })
+            self.$router.push('/accounting/tax/details/' + response.data.tax_id + '/' + self.$route.params.company_id)
+          })
+          .catch(function (error) {
+            console.log(error)
+            self.$notify({
+              component: {
+                template: `<span><b> Error! </b> - A unexpected error happened, please try it later again</span>`
+              },
+              icon: 'ti-alert',
+              horizontalAlign: 'right', // right | center | left
+              verticalAlign: 'top', // top | bottom
+              type: 'danger'  // info | success | warning | danger
+            })
+          })
+
+        console.log(self.wizardModel)
+        alert('wiazard')
       }
     },
     data () {
