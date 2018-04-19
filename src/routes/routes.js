@@ -31,6 +31,8 @@ import TaxTestConfiguration from 'src/components/Dashboard/Views/Accounting/TaxT
 // Events
 import EventsCreate from 'src/components/Dashboard/Views/Events/CreateEvent.vue'
 import EventsOverview from 'src/components/Dashboard/Views/Events/EventsAll.vue'
+import EventsDetails from 'src/components/Dashboard/Views/Events/EventsDetails.vue'
+import EventsDetailsEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventDetails.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -88,6 +90,22 @@ let eventMenu = {
       },
       name: 'View all Events',
       component: EventsOverview
+    },
+    {
+      path: '/events/detail/:event_id/:company_id',
+      meta: {
+        auth: true
+      },
+      name: 'Event details',
+      component: EventsDetails
+    },
+    {
+      path: '/events/details/edit/:event_id/:company_id',
+      meta: {
+        auth: true
+      },
+      name: 'Event Details Edit',
+      component: EventsDetailsEdit
     }
   ]
 }

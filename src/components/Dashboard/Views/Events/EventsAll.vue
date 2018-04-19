@@ -22,6 +22,9 @@
               <span>{{ formatDate(props.row.start_date) }}</span>
             </div>
             <div class="action_container" slot="action" slot-scope="props">
+              <router-link class="glyphicon glyphicon-eye-open"
+                           :to="{ name: 'Event details', params: { event_id: props.row.event_id, company_id: company_id }}"
+              ></router-link>
             </div>
           </v-client-table>
 
@@ -49,7 +52,7 @@
     computed: {},
     methods: {
       formatDate: function (value) {
-        return moment(value).format('MM/DD/YYYY hh:mm')
+        return moment(value).format('DD. MMMM, YYYY hh:mm')
       },
       fetchData: function () {
         this.loading = true
