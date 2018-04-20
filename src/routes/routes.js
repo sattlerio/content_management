@@ -33,6 +33,7 @@ import EventsCreate from 'src/components/Dashboard/Views/Events/CreateEvent.vue'
 import EventsOverview from 'src/components/Dashboard/Views/Events/EventsAll.vue'
 import EventsDetails from 'src/components/Dashboard/Views/Events/EventsDetails.vue'
 import EventsDetailsEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventDetails.vue'
+import EventLocationEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventLocation.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -100,8 +101,18 @@ let eventMenu = {
       component: EventsDetails
     },
     {
+      path: '/events/details/edit/location/:event_id/:company_id',
+      meta: {
+        permission: ['admin', 'manager', 'accountant', 'product_manager'],
+        auth: true
+      },
+      name: 'Edit event',
+      component: EventLocationEdit
+    },
+    {
       path: '/events/details/edit/:event_id/:company_id',
       meta: {
+        permission: ['admin', 'manager', 'accountant', 'product_manager'],
         auth: true
       },
       name: 'Event Details Edit',

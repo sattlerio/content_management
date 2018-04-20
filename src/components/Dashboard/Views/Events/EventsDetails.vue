@@ -37,7 +37,7 @@
           </div>
           <div class="card-footer text-right" v-if="checkUserPermission()">
             <router-link class="btn btn-default"
-                         :to="{ name: 'View all Events', params: { company_id: $route.params.company_id }}">Edit Event Details
+                         :to="{ name: 'Edit event', params: { event_id: $route.params.event_id, company_id: $route.params.company_id }}">Edit Event Details
             </router-link>
           </div>
         </div>
