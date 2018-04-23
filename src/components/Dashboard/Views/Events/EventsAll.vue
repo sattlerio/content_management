@@ -21,6 +21,12 @@
             <div class="start_date" slot="start_date" slot-scope="props">
               <span>{{ formatDate(props.row.start_date) }}</span>
             </div>
+            <div class="active" slot="active" slot-scope="props">
+              <span v-if="props.row.active">
+                Active
+              </span>
+              <span v-else="!props.row.active">Inactive</span>
+            </div>
             <div class="action_container" slot="action" slot-scope="props">
               <router-link class="glyphicon glyphicon-eye-open"
                            :to="{ name: 'Event details', params: { event_id: props.row.event_id, company_id: company_id }}"
@@ -52,7 +58,7 @@
     computed: {},
     methods: {
       formatDate: function (value) {
-        return moment(value).format('DD. MMMM, YYYY hh:mm')
+        return moment(value).format('DD. MMMM, YYYY hh:mm a')
       },
       fetchData: function () {
         this.loading = true
@@ -84,7 +90,7 @@
       return {
         company_id: null,
         loading: false,
-        columns: ['event_name', 'multi_day_event', 'start_date', 'location_name', 'action'],
+        columns: ['event_name', 'multi_day_event', 'start_date', 'location_name', 'active', 'action'],
         perPage: 25,
         tableData: [],
         options: {
@@ -93,10 +99,11 @@
             multi_day_event: 'Multiday Event',
             start_date: 'Start Date',
             location_name: 'Location',
+            active: 'Active',
             action: '#'
           },
           uniqueKey: 'event_id',
-          sortable: ['event_name', 'multi_day_event', 'start_date', 'location_name'],
+          sortable: ['event_name', 'multi_day_event', 'start_date', 'location_name', 'active'],
           filterable: ['event_name', 'start_date', 'location_name'],
           highlightMatches: true
         }

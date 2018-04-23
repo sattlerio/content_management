@@ -7,6 +7,11 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-md-12" v-if="!event.active">
+        <div class="alert alert-danger text-center" >
+          <h5>This event is not active!</h5>
+        </div>
+      </div>
       <div class="col-lg-2 col-sm-4" v-if="checkIfDateIsAfterToday(event.end_date)">
         <stats-card>
           <div class="icon-big text-center" :class="`icon-date`" slot="header">
