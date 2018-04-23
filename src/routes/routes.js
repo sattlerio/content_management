@@ -34,6 +34,7 @@ import EventsOverview from 'src/components/Dashboard/Views/Events/EventsAll.vue'
 import EventsDetails from 'src/components/Dashboard/Views/Events/EventsDetails.vue'
 import EventsDetailsEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventDetails.vue'
 import EventLocationEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventLocation.vue'
+import EventScheduleEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventDate.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -108,6 +109,15 @@ let eventMenu = {
       },
       name: 'Edit event',
       component: EventLocationEdit
+    },
+    {
+      path: '/events/details/edit/schedule/:event_id/:company_id',
+      meta: {
+        auth: true,
+        permission: ['admin', 'manager', 'accountant', 'product_manager']
+      },
+      name: 'Update Event Schedule',
+      component: EventScheduleEdit
     },
     {
       path: '/events/details/edit/:event_id/:company_id',
