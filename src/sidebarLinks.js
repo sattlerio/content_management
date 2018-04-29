@@ -56,5 +56,18 @@ export default [
         permission: ['admin', 'manager']
       }
     ]
+  },
+  {
+    name: 'Settings',
+    icon: 'ti-settings',
+    company_route: true,
+    permission: ['admin', 'manager', 'accountant', 'product_manager'],
+    children: [
+      {
+        name: 'Shipping Rules',
+        path: '/settings/shipping_rules',
+        permission: ['admin', 'manager', 'accountant', 'product_manager']
+      }
+    ]
   }
 ]

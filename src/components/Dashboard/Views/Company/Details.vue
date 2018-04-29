@@ -20,7 +20,7 @@
           </p>
         </div>
       </div>
-    </div>
+    </div>currency
     <div class="col-lg-8 col-md-7" v-if="company && company_country">
       <div class="card">
         <div class="card-header">

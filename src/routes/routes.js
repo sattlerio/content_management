@@ -41,6 +41,11 @@ import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
 import Logout from 'src/components/Dashboard/Views/Pages/Logout.vue'
 import CompanySelector from 'src/components/Dashboard/Views/CompanySelector.vue'
 
+// Settings
+// Shipping
+import ShippingRuleIndex from 'src/components/Dashboard/Views/Settings/ShippingRule/Index'
+import ShippingRuleCreate from 'src/components/Dashboard/Views/Settings/ShippingRule/Create'
+
 
 let userMenu = {
   path: '/user',
@@ -127,6 +132,36 @@ let eventMenu = {
       },
       name: 'Event Details Edit',
       component: EventsDetailsEdit
+    }
+  ]
+}
+
+let settingsMenu = {
+  path: '/settings/:company_id',
+  component: DashboardLayout,
+  meta: {
+    auth: true
+  },
+  permission: ['admin', 'manager', 'accountant', 'product_manager'],
+  redirect: '/',
+  children: [
+    {
+      path: '/settings/shipping_rules/:company_id',
+      name: 'Shipping Rules',
+      component: ShippingRuleIndex,
+      meta: {
+        auth: true,
+        permission: ['admin', 'manager', 'accountant', 'product_manager']
+      }
+    },
+    {
+      path: '/settings/shipping_rules/create/:company_id',
+      name: 'Create new Shipping Rule',
+      component: ShippingRuleCreate,
+      meta: {
+        auth: true,
+        permission: ['admin', 'manager', 'accountant', 'product_manager']
+      }
     }
   ]
 }
@@ -293,6 +328,7 @@ const routes = [
   companyMenu,
   taxMenu,
   eventMenu,
+  settingsMenu,
   {
     path: '/',
     component: DashboardGeneralLayout,
