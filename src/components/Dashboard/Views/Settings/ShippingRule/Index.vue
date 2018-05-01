@@ -20,7 +20,7 @@
             </div>
             <div class="action_container" slot="action" slot-scope="props">
               <router-link class="glyphicon glyphicon-eye-open"
-                           :to="{ name: 'Event details', params: { event_id: props.row.id, company_id: company_id }}"
+                           :to="{ name: 'Shipping Rule Details', params: { shipping_rule_id: props.row.shipping_rule_id, company_id: company_id }}"
               ></router-link>
 
               <a @click="showDeleteModal(props.row)"><i class="fa fa-trash red" v-tooltip="{
