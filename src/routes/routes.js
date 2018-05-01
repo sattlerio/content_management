@@ -46,6 +46,7 @@ import CompanySelector from 'src/components/Dashboard/Views/CompanySelector.vue'
 import ShippingRuleIndex from 'src/components/Dashboard/Views/Settings/ShippingRule/Index'
 import ShippingRuleCreate from 'src/components/Dashboard/Views/Settings/ShippingRule/Create'
 import ShippingRuleView from 'src/components/Dashboard/Views/Settings/ShippingRule/View'
+import ShippingRuleEdit from 'src/components/Dashboard/Views/Settings/ShippingRule/Edit'
 
 
 let userMenu = {
@@ -168,6 +169,15 @@ let settingsMenu = {
       path: '/settings/shipping_rules/view/:company_id/:shipping_rule_id',
       name: 'Shipping Rule Details',
       component: ShippingRuleView,
+      meta: {
+        auth: true,
+        permission: ['admin', 'manager', 'accountant', 'product_manager']
+      }
+    },
+    {
+      path: '/settings/shipping_rules/edit/:company_id/:shipping_rule_id',
+      name: 'Edit Shipping Rule',
+      component: ShippingRuleEdit,
       meta: {
         auth: true,
         permission: ['admin', 'manager', 'accountant', 'product_manager']

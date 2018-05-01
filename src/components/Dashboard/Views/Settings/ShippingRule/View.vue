@@ -7,6 +7,10 @@
           <router-link class="pull-right btn btn-default"
                        :to="{ name: 'Shipping Rules', params: { company_id: $route.params.company_id }}">Back
           </router-link>
+          <router-link class="pull-right btn btn-primary"
+                       :to="{ name: 'Edit Shipping Rule', params: { company_id: $route.params.company_id, shipping_rule_id: $route.params.shipping_rule_id }}">Edit Shipping Rule
+          </router-link>
+
           <h4 class="title pull-left">Shipping Rule: {{ shippingRule.name }}</h4>
           <div class="clearfix"></div>
         </div>
@@ -38,10 +42,10 @@
               <div class="col-sm-12">
                 <label>Available Countries
                 </label>
-                <p class="form-control disabled" v-if="!shippingRule.countries">The shipping rule is available worldwide</p>
-                <ul class="list" v-else="shippingRule.countries">
+                <ul class="list" v-if="shippingRule.countries.length > 0">
                   <li v-for="country in availCountries"  v-if="countryList.includes(country.id)">{{ country.name }}</li>
                 </ul>
+                <p class="form-control disabled" v-else>The shipping rule is available worldwide</p>
               </div>
             </div>
             <div class="clearfix"></div>

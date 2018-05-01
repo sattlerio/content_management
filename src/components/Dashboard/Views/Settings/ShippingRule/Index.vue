@@ -18,11 +18,20 @@
               </span>
               <span v-else="!props.row.manual_shipping">Automatic Shipping (Print@Home)</span>
             </div>
+            <div  slot="default_price" slot-scope="props">
+              <span v-if="!props.row.default_price">
+                This shipping method is free
+              </span>
+              <span v-else>{{ props.row.default_price }}</span>
+            </div>
             <div class="action_container" slot="action" slot-scope="props">
               <router-link class="glyphicon glyphicon-eye-open"
                            :to="{ name: 'Shipping Rule Details', params: { shipping_rule_id: props.row.shipping_rule_id, company_id: company_id }}"
               ></router-link>
 
+              <router-link class="fa fa-edit black"
+                           :to="{ name: 'Edit Shipping Rule', params: { shipping_rule_id: props.row.shipping_rule_id, company_id: company_id }}"
+              ></router-link>
               <a @click="showDeleteModal(props.row)"><i class="fa fa-trash red" v-tooltip="{
                     content: 'Delete this shipping rule',
                     placement: 'top',
@@ -116,7 +125,7 @@
       return {
         company_id: null,
         loading: false,
-        columns: ['name', 'manual_shipping', 'action'],
+        columns: ['name', 'manual_shipping', 'default_price', 'action'],
         perPage: 25,
         tableData: [],
         options: {
@@ -127,7 +136,7 @@
           },
           uniqueKey: 'shipping_rule_id',
           filterable: ['name'],
-          sortable: ['manual_shipping'],
+          sortable: ['manual_shipping', 'default_price'],
           highlightMatches: true
         }
       }
