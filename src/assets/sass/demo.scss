@@ -306,3 +306,7 @@ h4 .form-control {
 #gmap_container .input-group, #card .input-group__input {
   display: inherit !important;
 }
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:not(.btn):hover, .navbar-default .navbar-nav > .active > a:not(.btn):focus, .navbar-default .navbar-nav > li > a:not(.btn):hover, .navbar-default .navbar-nav > li > a:not(.btn):focus {
+  color: #68B3C8 !important;
+}
