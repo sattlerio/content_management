@@ -63,16 +63,16 @@
         const self = this
         swal({
           title: 'Are you sure?',
-          text: 'Are you sure you want to delete the shipping rule ' + row.name + '? You can not revert the rule after its deleted, also make sure the Shipping Rule is not in use anymore.',
+          text: 'Are you sure you want to delete the shipping rule ' + row.name + '? You can not revert the rule after its deleted, also make sure the Channel is not in use anymore.',
           type: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Delete'
         }).then((result) => {
           if (result) {
             let routeParams = self.$route.params
-            self.axios.delete('/api/shipping/delete/' + row.shipping_rule_id + '/' + routeParams.company_id)
+            self.axios.delete('/api/channels/delete/payment/' + routeParams.company_id + '/' + row.channel_uuid)
               .then(function (response) {
-                self.$refs.shippingRuleTable.$parent.fetchData()
+                self.$refs.channelRuleTable.$parent.fetchData()
                 swal(
                   'Deleted!',
                   'You deleted the shipping rule successfully',
