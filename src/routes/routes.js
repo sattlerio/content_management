@@ -51,6 +51,7 @@ import ShippingRuleEdit from 'src/components/Dashboard/Views/Settings/ShippingRu
 // Payments
 // Payments
 import PaymentChannelCreate from 'src/components/Dashboard/Views/Channels/Payments/Create'
+import PaymentChannelIndex from 'src/components/Dashboard/Views/Channels/Payments/View'
 
 
 let userMenu = {
@@ -85,7 +86,7 @@ let channelMenu = {
   meta: {
     auth: true
   },
-  redirect: '/channels/all',
+  redirect: '',
   children: [
     {
       path: '/channels/payments/create/:company_id',
@@ -95,6 +96,15 @@ let channelMenu = {
       },
       name: 'Create Payment Channel',
       component: PaymentChannelCreate
+    },
+    {
+      path: '/channels/payments/view/:company_id',
+      meta: {
+        permission: ['admin', 'manager'],
+        auth: true
+      },
+      name: 'All Payment Channels',
+      component: PaymentChannelIndex
     }
   ]
 }

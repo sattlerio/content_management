@@ -78,7 +78,7 @@ export default [
     children: [
       {
         name: 'Payment APIs',
-        path: '/settings/shipping_rules',
+        path: '/channels/payments/view',
         permission: ['admin', 'manager']
       }
     ]
