@@ -48,6 +48,10 @@ import ShippingRuleCreate from 'src/components/Dashboard/Views/Settings/Shipping
 import ShippingRuleView from 'src/components/Dashboard/Views/Settings/ShippingRule/View'
 import ShippingRuleEdit from 'src/components/Dashboard/Views/Settings/ShippingRule/Edit'
 
+// Payments
+// Payments
+import PaymentChannelCreate from 'src/components/Dashboard/Views/Channels/Payments/Create'
+
 
 let userMenu = {
   path: '/user',
@@ -71,6 +75,26 @@ let userMenu = {
       path: 'password',
       name: 'Change password',
       component: UserPassword
+    }
+  ]
+}
+
+let channelMenu = {
+  path: '/channels/:company_id',
+  component: DashboardLayout,
+  meta: {
+    auth: true
+  },
+  redirect: '/channels/all',
+  children: [
+    {
+      path: '/channels/payments/create/:company_id',
+      meta: {
+        permission: ['admin', 'manager'],
+        auth: true
+      },
+      name: 'Create Payment Channel',
+      component: PaymentChannelCreate
     }
   ]
 }
@@ -349,6 +373,7 @@ const routes = [
   taxMenu,
   eventMenu,
   settingsMenu,
+  channelMenu,
   {
     path: '/',
     component: DashboardGeneralLayout,

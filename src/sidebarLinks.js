@@ -69,5 +69,18 @@ export default [
         permission: ['admin', 'manager', 'accountant', 'product_manager']
       }
     ]
+  },
+  {
+    name: 'Payments',
+    icon: 'fa fa-exchange',
+    company_route: true,
+    permission: ['admin', 'manager'],
+    children: [
+      {
+        name: 'Payment APIs',
+        path: '/settings/shipping_rules',
+        permission: ['admin', 'manager']
+      }
+    ]
   }
 ]
