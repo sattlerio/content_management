@@ -23,11 +23,11 @@
             </div>
             <div class="action_container" slot="action" slot-scope="props">
               <router-link class="glyphicon glyphicon-eye-open"
-                           :to="{ name: 'Shipping Rule Details', params: { channel_uuid: props.row.channel_uuid, company_id: company_id }}"
+                           :to="{ name: 'Edit Payment Channel', params: { company_id: company_id, channel_id: props.row.channel_uuid }}"
               ></router-link>
 
               <router-link class="fa fa-edit black"
-                           :to="{ name: 'Edit Shipping Rule', params: { channel_uuid: props.row.channel_uuid, company_id: company_id }}"
+                           :to="{ name: 'Edit Payment Channel', params: { company_id: company_id, channel_id: props.row.channel_uuid }}"
               ></router-link>
               <a @click="showDeleteModal(props.row)"><i class="fa fa-trash red" v-tooltip="{
                     content: 'Delete this shipping rule',
