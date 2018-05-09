@@ -17,14 +17,12 @@
             </div>
             <div class="action_container" slot="sandbox" slot-scope="props">
               <div>
-                <span v-if="sandbox">Test Environment only</span>
+                <span v-if="props.row.sandbox">Test Environment only</span>
                 <span v-else>Live Environment</span>
               </div>
             </div>
             <div class="action_container" slot="action" slot-scope="props">
-              <router-link class="glyphicon glyphicon-eye-open"
-                           :to="{ name: 'Edit Payment Channel', params: { company_id: company_id, channel_id: props.row.channel_uuid }}"
-              ></router-link>
+              <a @click="showModal(props.row)" class="glyphicon glyphicon-eye-open"></a>
 
               <router-link class="fa fa-edit black"
                            :to="{ name: 'Edit Payment Channel', params: { company_id: company_id, channel_id: props.row.channel_uuid }}"
@@ -41,10 +39,40 @@
         </div>
       </div>
     </div>
+    <modal v-show="isModalVisible" @close="closeModal">
+      <div class="djsklad" slot="header" slot-scope="header">
+        View Channel Details
+      </div>
+      <div slot-scope="body" slot="body" v-if="channel">
+
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="center text-center">{{ channel.name }}</h4>
+            <hr>
+            <p class="text-center"><strong>Details</strong></p>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled">
+              <li>Name: <strong>{{ channel.name }}</strong></li>
+              <li>Channel: <strong v-if="channel">{{ channel.channel_id.replace(/\b\w/g, l => l.toUpperCase()) }}</strong></li>
+              <li>Status: <strong v-if="channel.sandbox">Test only</strong><strong v-else>Production (Live)</strong></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled">
+              <li v-show="channel.key">Key: <strong>{{ channel.key }}</strong></li>
+              <li v-show="channel.private_key">Secret: <strong>{{ channel.private_key }}</strong></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </modal>
   </div>
 </template>
 <script>
   import Spinner from 'src/components/UIComponents/Spinner.vue'
+  import Modal from 'src/components/UIComponents/Modal'
 
   import {ClientTable} from 'vue-tables-2'
   import Vue from 'vue'
@@ -54,11 +82,45 @@
   Vue.use(ClientTable)
 
   export default {
+    data () {
+      return {
+        isModalVisible: false,
+        company_id: null,
+        loading: true,
+        columns: ['name', 'channel_id', 'sandbox', 'action'],
+        perPage: 25,
+        tableData: [],
+        options: {
+          headings: {
+            name: 'Name',
+            channel_id: 'Channel',
+            sandbox: 'Production',
+            action: '#'
+          },
+          uniqueKey: 'channel_uuid',
+          filterable: ['name', 'channel_id'],
+          sortable: ['channel_id', 'sandbox'],
+          highlightMatches: true,
+          channel: false
+        }
+      }
+    },
     components: {
-      Spinner
+      Spinner,
+      Modal
     },
     computed: {},
     methods: {
+      showModal (channel) {
+        const self = this
+        self.channel = channel
+        self.isModalVisible = true
+      },
+      closeModal () {
+        const self = this
+        self.isModalVisible = false
+        self.channel = false
+      },
       showDeleteModal (row) {
         const self = this
         swal({
@@ -116,27 +178,6 @@
       this.company_id = this.$route.params.company_id
       this.fetchData()
       this.tableData = this.fetchData()
-    },
-    data () {
-      return {
-        company_id: null,
-        loading: true,
-        columns: ['name', 'channel_id', 'sandbox', 'action'],
-        perPage: 25,
-        tableData: [],
-        options: {
-          headings: {
-            name: 'Name',
-            channel_id: 'Channel',
-            sandbox: 'Production',
-            action: '#'
-          },
-          uniqueKey: 'channel_uuid',
-          filterable: ['name', 'channel_id'],
-          sortable: ['channel_id', 'sandbox'],
-          highlightMatches: true
-        }
-      }
     }
   }
 </script>
