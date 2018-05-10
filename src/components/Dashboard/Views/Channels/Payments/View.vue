@@ -60,6 +60,7 @@
           </div>
           <div class="col-md-6">
             <ul class="list-unstyled">
+              <li v-show="channel.merchant_id">Merchant Id: <strong>{{ channel.merchant_id }}</strong></li>
               <li v-show="channel.key">Key: <strong>{{ channel.key }}</strong></li>
               <li v-show="channel.private_key">Secret: <strong>{{ channel.private_key }}</strong></li>
             </ul>

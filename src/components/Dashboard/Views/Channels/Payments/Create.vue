@@ -71,6 +71,64 @@
                 </div>
               </div>
               <!-- // Stripe -->
+              <!-- Braintree -->
+              <div v-if="channel.channel_id === 'braintree'">
+                <div class="col-sm-12 form-group">
+                  <p-checkbox :checked="false" :name="sandbox" v-model="channel.sandbox">Sandbox (Testing environment)</p-checkbox>
+                </div>
+                <div class="col-sm-12 form-group">
+                  <div class="col-sm-12">
+                    <label for="merchant_id">Braintree Merchant ID
+                    </label>
+                    <input type="text" name="merchant_id" v-model="channel.merchant_id" v-validate="modelValidations.merchant_id"
+                           class="form-control"
+                    >
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <small class="text-danger" v-show="merchant_id.invalid">
+                    {{ getError('merchant_id') }}
+                  </small>
+                </div>
+                <div class="col-sm-12 form-group">
+                  <div class="col-sm-12">
+                    <label for="api_key">Braintree Public Key
+                    </label>
+                    <input type="text" name="api_key" v-model="channel.api_key" v-validate="modelValidations.api_key"
+                           class="form-control"
+                    >
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <small class="text-danger" v-show="api_key.invalid">
+                    {{ getError('api_key') }}
+                  </small>
+                </div>
+                <div class="col-sm-12 form-group">
+                  <div class="col-sm-12">
+                    <label for="private_key">Braintree Private Key
+                    </label>
+                    <input type="text" name="private_key" v-model="channel.private_key" v-validate="modelValidations.private_key"
+                           class="form-control"
+                    >
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <small class="text-danger" v-show="private_key.invalid">
+                    {{ getError('private_key') }}
+                  </small>
+                </div>
+                <div class="col-sm-10 el-col-sm-offset-1">
+                  <p class="blockquote"><strong>Braintree Payment API (Paypal)</strong><br>To get
+                    a braintree account you just have to register on their website here: <a href="https://www.braintreepayments.com" target="_blank">https://www.braintreepayments.com</a>.
+                    <br>
+                    After the successful registration you can get in the Braintree Dashboard the API Credentials. We are supporting for Braintree the Live and the Sandbox Integration.
+                    You can use the Sandbox for making test payments in your Shop, without getting charged. <br>
+                    Braintree is a Service for Paypal with the Braintree Integration we are also supporting the PayPal Express Checkout.
+                  </p>
+                </div>
+              </div>
+              <!-- // Braintree -->
 
               <div class="col-md-12" v-if="error">
                 <div class="alert alert-danger">
@@ -103,7 +161,7 @@
       Spinner
     },
     computed: {
-      ...mapFields(['name', 'channel_id', 'api_key'])
+      ...mapFields(['name', 'channel_id', 'api_key', 'merchant_id', 'private_key', 'sandbox'])
     },
     methods: {
       getError (fieldName) {
@@ -129,7 +187,10 @@
             if (result) {
               let data = JSON.stringify({
                 name: self.channel.name,
-                key: self.channel.api_key
+                key: self.channel.api_key,
+                private_key: self.channel.private_key,
+                merchant_id: self.channel.merchant_id,
+                sandbox: self.channel.sandbox
               })
               self.axios.post('/api/channels/create/' + self.channel.type + '/' + self.channel.channel_id + '/' + self.$route.params.company_id, data, {
                 headers: {
@@ -192,7 +253,10 @@
           name: '',
           type: 'payment',
           channel_id: '',
-          api_key: ''
+          merchant_id: '',
+          private_key: '',
+          api_key: '',
+          channel: false
         },
         loading: true,
         modelValidations: {
@@ -203,6 +267,12 @@
             required: true
           },
           api_key: {
+            required: true
+          },
+          private_key: {
+            required: true
+          },
+          merchant_id: {
             required: true
           }
         }
