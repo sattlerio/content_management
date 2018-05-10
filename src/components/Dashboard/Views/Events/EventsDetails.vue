@@ -7,9 +7,14 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12" v-if="!event.active">
+      <div class="col-md-12" v-if="!event.active && checkIfDateIsAfterToday(event.end_date)">
         <div class="alert alert-danger text-center" >
           <h5>This event is not active!</h5>
+        </div>
+      </div>
+      <div class="col-md-12" v-else="!checkIfDateIsAfterToday(event.end_date)">
+        <div class="alert alert-warning text-center">
+          <h5>This event is in the past</h5>
         </div>
       </div>
       <div class="col-lg-2 col-sm-4" v-if="checkIfDateIsAfterToday(event.end_date)">
@@ -40,7 +45,7 @@
               <li><strong>City:</strong> {{ event.city }}, {{ event.postal_code }} - {{ country.country.name }}</li>
             </ul>
           </div>
-          <div class="card-footer text-right" v-if="checkUserPermission()">
+          <div class="card-footer text-right" v-if="checkUserPermission() && checkIfDateIsAfterToday(event.end_date)">
             <router-link class="btn btn-default"
                          :to="{ name: 'Edit event', params: { event_id: $route.params.event_id, company_id: $route.params.company_id }}">Edit Event Details
             </router-link>
@@ -62,7 +67,7 @@
               <span v-else="!event.multi_day_event">This event is hold onetime</span></li>
             </ul>
           </div>
-          <div class="card-footer text-right" v-if="checkUserPermission()">
+          <div class="card-footer text-right" v-if="checkUserPermission() && checkIfDateIsAfterToday(event.end_date)">
             <router-link class="btn btn-default"
                          :to="{ name: 'Update Event Schedule', params: { event_id: $route.params.event_id, company_id: $route.params.company_id }}">Edit Event Schedule
             </router-link>
@@ -82,6 +87,7 @@
               <li><strong>Multiple Languages: </strong> <span v-if="event.multi_language">The event supports multiple languages</span>
                 <span v-else="!event.multi_language">The event does not support multible languages</span>
               </li>
+              <li><strong>Language: </strong> {{ getLanguageName(event.default_language_id) }} </li>
               <li v-if="event.multi_language && event.event_languages"><strong>Languages:</strong>
                 <ul>
                   <li v-for="language in event.event_languages"> {{ getLanguageName(language.language_id) }}</li>
@@ -89,7 +95,7 @@
               </li>
             </ul>
           </div>
-          <div class="card-footer text-right" v-if="checkUserPermission()">
+          <div class="card-footer text-right" v-if="checkUserPermission() && checkIfDateIsAfterToday(event.end_date)">
             <router-link class="btn btn-default"
                          :to="{ name: 'Event Details Edit', params: { event_id: $route.params.event_id, company_id: $route.params.company_id }}">Edit Event Schedule
             </router-link>
