@@ -1,13 +1,25 @@
 <template>
   <div class="card">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default card-content">
       <div class="container-fluid">
-        <div class="navbar-absolute">
+        <div class="">
           <ul class="nav navbar-nav navbar-left">
-            <li class="open" v-bind:class="$route.name == 'Event details' ? 'active isActive is-active active-class' : ''">
-              <router-link to="/admin/stats" class="dropdown-toggle btn-magnify" data-toggle="dropdown">
+            <li class="open">
+              <router-link
+                :to="{ name: 'Event details', params: { event_id: $route.params.event_id, company_id: $route.params.company_id }}"
+                class="dropdown-toggle btn-magnify" v-bind:class="{ active: $route.name === 'Event details'}" data-toggle="dropdown">
                 <i class="ti-home"></i>
                 <p>Overview</p>
+              </router-link>
+            </li>
+            <drop-down tag="li" title="Tickets" icon="ti-ticket">
+              <li>
+                <router-link :to="{ name: 'Ticket Design', params: { event_id: $route.params.event_id, company_id: $route.params.company_id }}">Design</router-link>
+              </li>
+            </drop-down>
+            <li>
+              <router-link to="/admin/overview" class="btn-rotate">
+                <i class="ti-settings"></i>
               </router-link>
             </li>
           </ul>
@@ -17,35 +29,13 @@
   </div>
 </template>
 <script>
-  export default{
-    name: 'drop-down',
-    props: {
-    },
-    computed: {
-    },
-    methods: {
-      capitalizeFirstLetter (string) {
-        return string.charAt(0).toUpperCase() + string.slice(1)
-      },
-      toggleNotificationDropDown () {
-        this.activeNotifications = !this.activeNotifications
-      },
-      closeDropDown () {
-        this.activeNotifications = false
-      },
-      toggleSidebar () {
-        this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
-      },
-      hideSidebar () {
-        this.$sidebar.displaySidebar(false)
-      },
-      minimizeSidebar () {
-        this.$sidebar.toggleMinimize()
-      }
-    },
+
+  export default {
     data () {
       return {
       }
+    },
+    methods: {
     }
   }
 </script>

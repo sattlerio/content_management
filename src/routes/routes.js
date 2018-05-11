@@ -35,6 +35,8 @@ import EventsDetails from 'src/components/Dashboard/Views/Events/EventsDetails.v
 import EventsDetailsEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventDetails.vue'
 import EventLocationEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventLocation.vue'
 import EventScheduleEdit from 'src/components/Dashboard/Views/Events/BasicEdit/EventDate.vue'
+// Tickets
+import TicketDesignIndex from 'src/components/Dashboard/Views/Events/Tickets/DesignIndex.vue'
 
 // Auth Components
 import Login from 'src/components/Dashboard/Views/Pages/Login.vue'
@@ -151,6 +153,15 @@ let eventMenu = {
       },
       name: 'Event details',
       component: EventsDetails
+    },
+    {
+      path: '/event/tickets/design/:event_id/:company_id',
+      name: 'Ticket Design',
+      component: TicketDesignIndex,
+      meta: {
+        permission: ['admin', 'manager', 'accountant', 'product_manager'],
+        auth: true
+      }
     },
     {
       path: '/events/details/edit/location/:event_id/:company_id',
