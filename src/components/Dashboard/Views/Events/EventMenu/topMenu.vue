@@ -7,12 +7,12 @@
             <li class="open">
               <router-link
                 :to="{ name: 'Event details', params: { event_id: $route.params.event_id, company_id: $route.params.company_id }}"
-                class="dropdown-toggle btn-magnify" v-bind:class="{ active: $route.name === 'Event details'}" data-toggle="dropdown">
+                class="dropdown-toggle btn-magnify" v-bind:class="{ active: ($route.name === 'Event details')}" data-toggle="dropdown">
                 <i class="ti-home"></i>
                 <p>Overview</p>
               </router-link>
             </li>
-            <drop-down tag="li" title="Tickets" icon="ti-ticket">
+            <drop-down tag="li" v-bind:class="{ active: ($route.name.includes('Ticket'))}" title="Tickets" icon="ti-ticket">
               <li>
                 <router-link :to="{ name: 'Ticket Design', params: { event_id: $route.params.event_id, company_id: $route.params.company_id }}">Design</router-link>
               </li>
