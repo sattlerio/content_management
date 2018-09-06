@@ -36,7 +36,7 @@ Vue.use(SideBar, {sidebarLinks: sidebarLinks})
 Vue.use(VeeValidate)
 Vue.use(VueAxios, axios)
 Vue.use(VTooltip)
-Vue.axios.defaults.baseURL = 'http://localhost:8080'
+Vue.axios.defaults.baseURL = 'http://localhost:5000'
 
 locale.use(lang)
 
@@ -44,30 +44,6 @@ locale.use(lang)
 const router = new VueRouter({
   routes: routes, // short for routes: routes
   linkActiveClass: 'active'
-})
-
-
-router.beforeResolve((to, from, next) => {
-  if (to.params['company_id']) {
-    let company = to.params['company_id']
-    Vue.axios.get('/auth/validate/user_company/' + company)
-      .then(function (response) {
-        next(true)
-      })
-      .catch(function (error) {
-        console.log(error.response)
-        if (error.response) {
-          if (error.response.status === 400) {
-            if (error.response.data.single_company) {
-              next('/admin/home/' + error.response.data.company)
-            }
-          }
-        }
-        next('/select-company')
-      })
-  } else {
-    next(true)
-  }
 })
 
 Vue.router = router

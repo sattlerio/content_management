@@ -1,7 +1,7 @@
 {
-  "name": "insert_name_here",
+  "name": "operations_ui_yellitech",
   "version": "1.1.0",
-  "description": "INSERT NAME HERE",
+  "description": "Yellitech Ops UI",
   "author": "Georg Sattler <georg@sattler.io>",
   "private": true,
   "scripts": {

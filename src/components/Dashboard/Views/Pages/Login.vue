@@ -12,16 +12,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <router-link class="navbar-brand" to="/">Paper Dashboard PRO</router-link>
+          <router-link class="navbar-brand" to="/">Yellitech Operations UI</router-link>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-            <router-link to="/register" tag="li">
-              <a>Register</a>
-            </router-link>
-            <router-link to="/admin/overview" tag="li">
-              <a>Dashboard</a>
-            </router-link>
           </ul>
         </div>
       </div>
@@ -39,7 +33,7 @@
                   <div class="card" data-background="color" data-color="blue">
                     <div class="card-header">
                       <h3 class="card-title">Login</h3>
-                      <p>Welcome to NAME, to use the platform please login.</p>
+                      <p>Welcome to Yellitech, to use the platform please login.</p>
                     </div>
                     <div class="card-content">
                       <div class="form-group">
@@ -74,11 +68,6 @@
                       </div>
                       <button type="submit" @click.prevent="validate" class="btn btn-fill btn-info btn-wd">Login
                       </button>
-                      <div class="forgot">
-                        <router-link to="/register">
-                          Forgot your password?
-                        </router-link>
-                      </div>
                     </div>
                   </div>
                 </form>
@@ -89,12 +78,6 @@
 
         <footer class="footer footer-transparent">
           <div class="container">
-            <div class="copyright">
-              &copy; Coded with
-              <i class="fa fa-heart heart"></i> by
-              <a href="https://github.com/cristijora" target="_blank">Cristi Jora</a>.
-              Designed by <a href="https://www.creative-tim.com/?ref=pdf-vuejs" target="_blank">Creative Tim</a>.
-            </div>
           </div>
         </footer>
         <div class="full-page-background" style="background-image: url(static/img/background/background-2.jpg) "></div>
@@ -102,12 +85,7 @@
     </div>
     <div class="collapse navbar-collapse off-canvas-sidebar">
       <ul class="nav nav-mobile-menu">
-        <router-link to="/register" tag="li">
-          <a>Register</a>
-        </router-link>
-        <router-link to="/admin/overview" tag="li">
-          <a>Dashboard</a>
-        </router-link>
+
       </ul>
     </div>
   </div>
@@ -128,7 +106,7 @@
           error_msg: ''
         },
         modelValidations: {
-          email: {
+          reporter: {
             required: true,
             email: true
           },

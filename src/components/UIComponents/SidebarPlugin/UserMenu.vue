@@ -6,7 +6,7 @@
     <div class="info">
       <a data-toggle="collapse" @click="toggleMenu" href="javascript:void(0)">
            <span>
-             {{ this.$auth.user().firstname }} {{ this.$auth.user().lastname }}
+             {{ this.$auth.user().email }}
              <b class="caret"></b>
           </span>
       </a>
@@ -14,18 +14,6 @@
       <div>
         <el-collapse-transition>
           <ul class="nav" v-show="!isClosed">
-            <li>
-              <router-link to="/user/profile">
-                <span class="sidebar-mini"><i class="ti-user"></i></span>
-                <span class="sidebar-normal">My Profile</span>
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/user/password">
-                <span class="sidebar-mini"><i class="ti-key"></i></span>
-                <span class="sidebar-normal">Password</span>
-              </router-link>
-            </li>
             <li>
               <router-link to="/logout">
                 <span class="sidebar-mini"><i class="ti-power-off"></i></span>

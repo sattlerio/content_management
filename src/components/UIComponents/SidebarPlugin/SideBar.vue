@@ -16,40 +16,16 @@
       <slot>
 
       </slot>
-      <ul :class="navClasses" v-if="company_route">
+      <ul :class="navClasses">
         <slot name="links">
           <sidebar-item v-for="(link, index) in sidebarLinks"
                         :key="link.name + index"
                         :link="link"
-                        :company_route="link.company_route"
-                        v-if="link.company_route === true && (!link.permission || link.permission.includes(user_perm))"
           >
 
             <sidebar-item v-for="(subLink, index) in link.children"
                           :key="subLink.name + index"
                           :link="subLink"
-                          :company_route="link.company_route"
-                          v-if="link.company_route === true && (!subLink.permission || subLink.permission.includes(user_perm))"
-            >
-            </sidebar-item>
-          </sidebar-item>
-        </slot>
-
-      </ul>
-      <ul :class="navClasses" v-else>
-        <slot name="links">
-          <sidebar-item v-for="(link, index) in sidebarLinks"
-                        :key="link.name + index"
-                        :link="link"
-                        :company_route="link.company_route"
-                        v-if="link.company_route === false"
-          >
-
-            <sidebar-item v-for="(subLink, index) in link.children"
-                          :key="subLink.name + index"
-                          :link="subLink"
-                          :company_route="link.company_route"
-                          v-if="link.company_route === false"
             >
             </sidebar-item>
           </sidebar-item>
@@ -63,7 +39,6 @@
   export default {
     data () {
       return {
-        company_route: false,
         user_perm: 'default'
       }
     },
@@ -130,14 +105,8 @@
       },
 
       generateSidebarItems () {
-        this.user_perm = this.$auth.user().permission
         const self = this
         let routeParams = self.$route.params
-        if (routeParams.company_id) {
-          self.company_route = true
-        } else {
-          self.company_route = false
-        }
       }
     },
     created () {

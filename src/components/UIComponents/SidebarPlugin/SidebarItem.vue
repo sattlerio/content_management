@@ -45,10 +45,6 @@
       [CollapseTransition.name]: CollapseTransition
     },
     props: {
-      company_route: {
-        type: Boolean,
-        default: null
-      },
       menu: {
         type: Boolean,
         default: false
@@ -135,16 +131,10 @@
       },
       getRoute (link) {
         const self = this
-        if (self.company_route && self.company_id) {
-          link = link + '/' + self.company_id
-        }
         return link
       }
     },
     mounted () {
-      if (this.company_route) {
-        this.getCompanyId()
-      }
       if (this.addLink) {
         this.addLink(this)
       }
